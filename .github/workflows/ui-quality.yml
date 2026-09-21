@@ -1,0 +1,42 @@
+name: RegistreAi UI Quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ui-quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  browsers:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      VITE_WHATSAPP_NUMBER: ''
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install --include=optional
+      - run: npm run check
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npm run test:ui
+      - name: Preserve screenshots and test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: registreai-ui-review
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14
+          if-no-files-found: ignore

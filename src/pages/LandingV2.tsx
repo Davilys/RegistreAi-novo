@@ -35,17 +35,30 @@ function WhatsAppButton({ label = "Falar com a Reg no WhatsApp" }: { label?: str
 }
 
 export default function LandingV2() {
+  const scrollToSection = (id: string) => {
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    const top = target.getBoundingClientRect().top + window.scrollY - 24;
+    window.scrollTo({ top, behavior: "smooth" });
+  };
+
   return (
     <main className="site-shell">
       <header className="topbar wrap">
-        <a className="brand" href="#top" aria-label="RegistreAi">
+        <button
+          type="button"
+          className="brand brand-button"
+          aria-label="Voltar ao início"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        >
           <RegMark size={42} />
           <span>RegistreAi</span>
-        </a>
+        </button>
 
         <nav className="desktop-nav" aria-label="Navegação principal">
-          <a href="#como-funciona">Como funciona</a>
-          <a href="#planos">Planos</a>
+          <button type="button" onClick={() => scrollToSection("como-funciona")}>Como funciona</button>
+          <button type="button" onClick={() => scrollToSection("planos")}>Planos</button>
           <Link to="/politica-de-privacidade">Privacidade</Link>
         </nav>
 

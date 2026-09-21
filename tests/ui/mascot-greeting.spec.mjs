@@ -182,10 +182,19 @@ for (const width of [390, 1440]) {
   test(`visual review ${width}px: original pose, blink and restrained wave fit their reserved space`, async ({ page }, testInfo) => {
     await page.setViewportSize({ width, height: 900 });
     await recordAnimations(page, true);
-    await load(page); await trigger(page);
+    // Capture the actual original pose BEFORE animate() creates composited SVG layers.
+    // A paused identity transform at t=0 is not the static rasterization in Chromium.
+    await page.addInitScript(() => {
+      window.__previewVisible = false;
+      Object.defineProperty(document, 'visibilityState', { configurable: true, get: () => window.__previewVisible ? 'visible' : 'hidden' });
+    });
+    await load(page);
+    await mascot(page).scrollIntoViewIfNeeded();
+    expect(await count(page)).toBe(0);
+    const first = await mascot(page).screenshot({ path: testInfo.outputPath(`pose-${width}-before.png`) });
     const dimensions = await page.evaluate(() => ({ width: document.documentElement.scrollWidth, height: document.documentElement.scrollHeight }));
-    await page.evaluate(() => { for (const a of window.__regAnimations) a.currentTime = 0; });
-    const first = await mascot(page).screenshot();
+    await page.evaluate(() => { window.__previewVisible = true; document.dispatchEvent(new Event('visibilitychange')); });
+    await trigger(page);
     for (const time of [0, 190, 350, 650, 999]) {
       await page.evaluate(time => { for (const a of window.__regAnimations) a.currentTime = time; }, time);
       await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
@@ -204,7 +213,12 @@ for (const width of [390, 1440]) {
     }
     await page.evaluate(() => { for (const a of window.__regAnimations) a.finish(); });
     await expect(mascot(page)).toHaveAttribute('data-greeting', 'done');
-    expect(await mascot(page).screenshot()).toEqual(first);
+    await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+    for (const selector of ['[data-reg-eye]', '[data-reg-arm]']) {
+      expect(await mascot(page).locator(selector).evaluate(el => getComputedStyle(el).transform)).toBe('none');
+    }
+    const last = await mascot(page).screenshot({ path: testInfo.outputPath(`pose-${width}-after.png`) });
+    expect(last.equals(first), 'The real static pose before and after must be pixel-identical').toBe(true);
     expect(await active(page)).toBe(0);
     await page.locator('.phone-stage').screenshot({ path: testInfo.outputPath(`greeting-${width}-finished.png`) });
   });

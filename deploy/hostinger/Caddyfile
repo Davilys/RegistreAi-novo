@@ -1,8 +1,12 @@
-:80 {
+registreai.com.br {
   encode zstd gzip
   reverse_proxy web:80
 
   header {
     -Server
   }
+}
+
+www.registreai.com.br {
+  redir https://registreai.com.br{uri} permanent
 }

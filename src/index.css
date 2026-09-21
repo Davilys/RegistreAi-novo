@@ -211,3 +211,25 @@ section[tabindex="-1"]:focus { outline: none; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
 }
+
+
+/* New content sections reuse the current typography, palette, radii and spacing system. */
+.trust-band { padding-block: 64px; background: var(--surface); border-bottom: 1px solid #ececea; }
+.trust-heading { max-width: 760px; margin-bottom: 32px; }
+.trust-heading h2, .comparison-section h2 { margin: 0; font-size: clamp(36px, 4vw, 54px); line-height: 1.08; letter-spacing: -.045em; text-wrap: balance; }
+.trust-grid, .comparison-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.trust-card, .comparison-card { min-width: 0; padding: 28px; border: 1px solid var(--line); border-radius: 18px; background: #fff; }
+.trust-index { display: grid; place-items: center; width: 42px; height: 42px; margin-bottom: 22px; border: 1px solid var(--line); border-radius: 50%; font-size: 12px; font-weight: 700; color: var(--muted); }
+.trust-card h3, .comparison-card h3 { margin: 0 0 10px; font-size: 20px; line-height: 1.3; letter-spacing: -.025em; }
+.trust-card p { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
+.comparison-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: 40px; }
+.comparison-card { display: flex; flex-direction: column; }
+.comparison-card ul { margin: 12px 0 0; padding: 0; list-style: none; display: grid; gap: 12px; color: #48484f; font-size: 14px; line-height: 1.55; }
+.comparison-card li::before { content: "✓"; margin-right: 9px; font-weight: 800; }
+.comparison-price { margin: auto 0 0; padding-top: 26px; color: var(--muted); font-size: 15px; line-height: 1.55; }
+@media (max-width: 767px) {
+  .trust-band { padding-block: 56px; }
+  .trust-grid, .comparison-grid { grid-template-columns: minmax(0, 1fr); }
+  .trust-card, .comparison-card { padding: 24px 20px; }
+  .comparison-grid { margin-top: 30px; }
+}

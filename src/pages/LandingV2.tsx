@@ -12,10 +12,12 @@ const steps = [
   ["04", "A Reg acompanha", "Monitora o INPI e avisa quando precisar de algo seu."],
 ];
 const faqs = [
-  ["Preciso ter CNPJ para registrar?", "Não. O registro pode ser feito em CPF ou CNPJ, conforme o titular escolhido para a marca."],
-  ["As taxas do INPI estão inclusas?", "Não. As taxas oficiais do INPI são separadas dos honorários da RegistreAi e são apresentadas quando aplicáveis."],
-  ["O Plano Ilimitado pode ser usado para outras pessoas?", "Não. Ele fica vinculado a um único CPF ou CNPJ titular e não pode ser usado para pedidos em nome de terceiros."],
-  ["A Reg garante que o INPI vai aprovar?", "Não. A decisão final é do INPI. A Reg faz análise de viabilidade, prepara o processo, acompanha e executa as etapas previstas no plano."],
+  ["É golpe?", "CNPJ ativo, endereço real e a marca fica no seu nome no INPI. Se a RegistreAi deixar de existir, o processo continua sendo seu."],
+  ["A IA erra?", "A Reg faz a análise e os pontos críticos são revisados. Ela nunca promete resultado: quem decide é o INPI."],
+  ["E se o INPI negar?", "Antes do protocolo, a Reg faz a busca de viabilidade e apresenta o cenário para você decidir com informação."],
+  ["Preciso ter CNPJ?", "Não. Você pode registrar em CPF ou CNPJ, conforme o titular da marca."],
+  ["Posso cancelar quando quiser?", "Sim. Sem multa e sem fidelidade. O processo já protocolado no INPI continua sendo seu."],
+  ["Quanto tempo demora?", "O protocolo é preparado em até 48h após as etapas necessárias. A decisão do INPI leva meses e a Reg acompanha cada etapa."],
 ];
 
 function WhatsAppIcon() {
@@ -99,6 +101,20 @@ export default function LandingV2() {
         </div>
       </section>
 
+      <section className="trust-band" aria-labelledby="trust-title">
+        <div className="wrap">
+          <div className="trust-heading">
+            <p className="eyebrow">TRANSPARÊNCIA</p>
+            <h2 id="trust-title">Sim, é de verdade. E a marca fica no seu nome.</h2>
+          </div>
+          <div className="trust-grid">
+            <article className="trust-card"><span className="trust-index">01</span><h3>CNPJ ativo e endereço real</h3><p>A RegistreAi opera com CNPJ ativo e endereço físico em São Paulo.</p></article>
+            <article className="trust-card"><span className="trust-index">02</span><h3>Pedido no nome do cliente</h3><p>O pedido é protocolado no INPI em nome do próprio titular da marca.</p></article>
+            <article className="trust-card"><span className="trust-index">03</span><h3>O processo continua sendo seu</h3><p>Mesmo se a RegistreAi deixar de existir, o processo protocolado no INPI continua vinculado ao titular.</p></article>
+          </div>
+        </div>
+      </section>
+
       <section id="como-funciona" tabIndex={-1} className="steps-band" aria-label="Como funciona">
         <div className="wrap steps-grid">
           {steps.map(([number, title, text]) => <article className="step-card" key={number}><div className="step-number">{number}</div><h3>{title}</h3><p>{text}</p></article>)}
@@ -111,23 +127,53 @@ export default function LandingV2() {
         </div>
       </section>
 
+      <section className="section wrap comparison-section" aria-labelledby="comparison-title">
+        <div className="section-heading">
+          <div><p className="eyebrow">ANTES DE ESCOLHER O PLANO</p><h2 id="comparison-title">Fazer sozinho sai caro.</h2></div>
+          <p>Uma escolha errada no início pode virar exigência, atraso e nova taxa depois.</p>
+        </div>
+        <div className="comparison-grid">
+          <article className="comparison-card">
+            <p className="plan-kicker">SOZINHO NO INPI</p>
+            <h3>Mais risco de retrabalho.</h3>
+            <ul>
+              <li>Escolher a classe errada</li>
+              <li>Receber uma exigência</li>
+              <li>Perder meses no processo</li>
+              <li>Precisar pagar taxa novamente</li>
+            </ul>
+          </article>
+          <article className="comparison-card">
+            <p className="plan-kicker">COM A REG</p>
+            <h3>Mais clareza do início ao acompanhamento.</h3>
+            <ul>
+              <li>Análise de viabilidade após a contratação</li>
+              <li>Definição da classe aplicável ao pedido</li>
+              <li>Preparação do protocolo em até 48h após as etapas necessárias</li>
+              <li>Monitoramento do processo até a decisão do INPI</li>
+            </ul>
+            <p className="comparison-price">Proteção: <strong>R$ 197</strong> de adesão + <strong>R$ 49/mês</strong></p>
+          </article>
+        </div>
+      </section>
+
       <section id="planos" tabIndex={-1} className="section wrap plans-section">
         <div className="section-heading"><div><p className="eyebrow">PLANOS SIMPLES E TRANSPARENTES</p><h2>Escolha o seu.</h2></div><p>As taxas oficiais do INPI são pagas separadamente quando aplicáveis.</p></div>
         <div className="plans-grid">
           <article className="plan-card">
-            <div className="plan-heading"><p className="plan-kicker">PARA UMA MARCA</p></div>
+            <div className="plan-heading"><p className="plan-kicker">PARA UMA MARCA</p><span className="plan-badge">MAIS POPULAR</span></div>
             <h3>Proteção</h3>
             <p className="plan-description">Para quem quer uma Reg cuidando de uma marca do início ao fim.</p>
-            <div className="price"><div className="price-setup"><strong>R$ 299</strong><span>de adesão</span></div><div className="price-monthly"><strong>+ R$ 49</strong><span>/mês</span></div></div>
-            <ul><li>Viabilidade após contratação</li><li>Preparação e acompanhamento do pedido</li><li>Monitoramento do INPI e dos prazos</li><li>Recursos previstos nas condições do plano</li><li>Garantia comercial conforme contrato</li></ul>
+            <div className="price"><div className="price-setup"><strong>R$ 197</strong><span>de adesão</span></div><div className="price-monthly"><strong>+ R$ 49</strong><span>/mês</span></div></div>
+            <ul><li>1 marca, do início ao fim</li><li>Sem fidelidade</li><li>Busca de viabilidade após contratação/pagamento</li><li>Preparação do protocolo</li><li>Monitoramento do INPI e dos prazos</li></ul>
             <WhatsAppButton label="Quero o plano Proteção" />
           </article>
           <article className="plan-card featured">
             <div className="plan-heading"><p className="plan-kicker">MESMO TITULAR</p><span className="plan-badge">VÁRIAS MARCAS</span></div>
             <h3>Ilimitado</h3>
             <p className="plan-description">Honorários de novos registros ilimitados para o mesmo CPF ou CNPJ.</p>
-            <div className="price"><div className="price-setup"><strong>R$ 999</strong><span>de adesão</span></div><div className="price-monthly"><strong>+ R$ 599</strong><span>/mês</span></div></div>
-            <ul><li>Registros ilimitados em honorários</li><li>Um único CPF ou CNPJ titular por plano</li><li>Não permite registros para terceiros</li><li>Acompanhamento e recursos previstos no plano</li><li>Taxas oficiais do INPI à parte</li></ul>
+            <div className="price"><div className="price-setup"><strong>R$ 497</strong><span>de adesão</span></div><div className="price-monthly"><strong>+ R$ 599</strong><span>/mês</span></div></div>
+            <ul><li>Registros ilimitados em honorários</li><li>Mesmo CPF ou CNPJ titular</li><li>Sem carência — cancele quando quiser</li><li>Não permite registros para terceiros</li><li>Taxas oficiais do INPI à parte</li></ul>
             <WhatsAppButton label="Quero o plano Ilimitado" />
           </article>
         </div>

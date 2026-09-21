@@ -54,7 +54,7 @@ export default function LandingV2() {
           <div className="mascot-cluster">
             <div className="mascot-message">Oi,<br />eu sou a Reg!</div>
             <svg className="mascot-arrow" viewBox="0 0 120 54" aria-hidden="true"><path d="M9 8c27 0 53 9 73 30" /><path d="m70 36 15 5-1-14" /></svg>
-            <RegMascot size={218} className="hero-mascot" />
+            <RegMascot size={218} className="hero-mascot" greetOnEntry />
           </div>
           <div className="phone phone-hero">
             <div className="phone-speaker" aria-hidden="true" />

@@ -19,18 +19,21 @@ O cliente não precisa aprender o processo do INPI. Ele fornece os dados, docume
 
 ## Planos
 ### Proteção
-- Adesão: R$ 299
+- Adesão: R$ 197
 - Mensalidade: R$ 49
 - Uma marca
+- Sem fidelidade
+- Busca de viabilidade após contratação/pagamento
 - Acompanhamento automatizado
 - Recursos previstos no plano
 - Garantia comercial conforme contrato
 - Taxas oficiais do INPI à parte
 
 ### Ilimitado
-- Adesão: R$ 999
+- Adesão: R$ 497
 - Mensalidade: R$ 599
 - Honorários de registros ilimitados
+- Sem carência — cancelamento quando quiser
 - Somente para o mesmo CPF ou CNPJ vinculado ao plano
 - Não permite registro para terceiros
 - Taxas oficiais do INPI à parte

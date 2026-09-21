@@ -135,3 +135,20 @@ test('text at 200 percent reflows instead of hiding behind illustration', async 
   // At increased text size, the phone and caption must still take up independent rows.
   await verifyLayout(page);
 });
+
+
+test('approved commercial content is present without changing the hero identity', async ({ page }) => {
+  await openHome(page);
+  await expect(page.locator('.hero h1')).toHaveText('A IA que registra sua marca.');
+  await expect(page.getByRole('heading', { name: 'Sim, é de verdade. E a marca fica no seu nome.' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Fazer sozinho sai caro.' })).toBeVisible();
+  await expect(page.locator('#planos')).toContainText('R$ 197');
+  await expect(page.locator('#planos')).toContainText('R$ 497');
+  await expect(page.locator('#planos')).toContainText('R$ 49');
+  await expect(page.locator('#planos')).toContainText('R$ 599');
+  await expect(page.locator('#planos')).toContainText('MAIS POPULAR');
+  await expect(page.locator('.faq-list details')).toHaveCount(6);
+  for (const question of ['É golpe?', 'A IA erra?', 'E se o INPI negar?', 'Preciso ter CNPJ?', 'Posso cancelar quando quiser?', 'Quanto tempo demora?']) {
+    await expect(page.locator('.faq-list summary', { hasText: question })).toBeVisible();
+  }
+});

@@ -55,7 +55,28 @@ button, a { -webkit-tap-highlight-color: transparent; }
   color: #343437;
 }
 
-.desktop-nav a:hover { color: #000; }
+.desktop-nav a,
+.desktop-nav button {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.desktop-nav a:hover,
+.desktop-nav button:hover { color: #000; }
+
+.brand-button {
+  appearance: none;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
 
 .topbar > .primary-cta {
   justify-self: end;

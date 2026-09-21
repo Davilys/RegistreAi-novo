@@ -36,3 +36,5 @@ services/**/.env.*
 /playwright-report/
 /playwright/.cache/
 *.tsbuildinfo
+
+!.env.staging.example

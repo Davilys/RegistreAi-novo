@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
 import { unzipSync } from "fflate";
 import { db } from "./db.js";
+import { classifyDispatch, discoverEditionNumbers, normalizeDate } from "./rpi-domain.js";
 
 const RPI_INDEX_URL = "https://revistas.inpi.gov.br/rpi/";
 const RPI_BASE_URL = "https://revistas.inpi.gov.br";
@@ -22,16 +23,6 @@ type ParsedEvent = {
 
 function sha256(value: string | Uint8Array) {
   return createHash("sha256").update(value).digest("hex");
-}
-
-function normalizeDate(value: string | null): string | null {
-  if (!value) return null;
-  const iso = value.match(/^(\d{4})-(\d{2})-(\d{2})/);
-  if (iso) return iso[1] + "-" + iso[2] + "-" + iso[3];
-
-  const br = value.match(/^(\d{2})[\/-](\d{2})[\/-](\d{4})$/);
-  if (br) return br[3] + "-" + br[2] + "-" + br[1];
-  return null;
 }
 
 function stripTags(value: string | null) {
@@ -79,38 +70,6 @@ function niceClasses(block: string): number[] {
   }
 
   return [...classes].sort((a, b) => a - b);
-}
-
-function classifyDispatch(code: string | null, text: string | null) {
-  const joined = ((code ?? "") + " " + (text ?? "")).normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase();
-
-  if (/oposi(c|ç)ao|oponente|manifestacao a oposicao/.test(joined)) {
-    return { eventType: "OPPOSITION", requiresAction: true };
-  }
-
-  if (/indefer|recusa|pedido de registro indeferido/.test(joined)) {
-    return { eventType: "REFUSAL", requiresAction: true };
-  }
-
-  if (/exigencia|cumprimento de exigencia|exigência/.test(joined)) {
-    const formal = /exame formal|formalidade|formal/.test(joined);
-    return {
-      eventType: formal ? "FORMAL_REQUIREMENT" : "MERIT_REQUIREMENT",
-      requiresAction: true
-    };
-  }
-
-  if (/deferid|concessao|concessão|registro concedido/.test(joined)) {
-    return { eventType: "GRANTED", requiresAction: false };
-  }
-
-  if (/arquivad|extint|caduc/.test(joined)) {
-    return { eventType: "ARCHIVED", requiresAction: false };
-  }
-
-  return { eventType: "RPI_PUBLICATION", requiresAction: false };
 }
 
 function extractDispatches(block: string) {
@@ -219,17 +178,6 @@ async function fetchBytes(url: string) {
 
   if (!response.ok) throw new Error("RPI_ZIP_HTTP_" + response.status + ":" + url);
   return new Uint8Array(await response.arrayBuffer());
-}
-
-function discoverEditionNumbers(html: string) {
-  const numbers = new Set<number>();
-
-  for (const match of html.matchAll(/RM(\d{4})\.zip/gi)) {
-    const number = Number(match[1]);
-    if (number >= 2500 && number <= 9999) numbers.add(number);
-  }
-
-  return [...numbers].sort((a, b) => a - b);
 }
 
 function extractMagazineDate(xml: string): string | null {

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -676,4 +676,477 @@ button, a { -webkit-tap-highlight-color: transparent; }
 @media (max-width: 680px) {
   .contract-view-shell { padding-top: 28px; }
   .contract-frame { height: 68vh; border-radius: 14px; }
+}
+
+
+/* Approved landing visual refinement */
+body {
+  background: #fff;
+}
+
+.site-shell {
+  background: #fff;
+}
+
+.topbar {
+  min-height: 82px;
+}
+
+.brand-mascot {
+  width: 34px;
+  height: 37px;
+}
+
+.hero {
+  min-height: 585px;
+  padding: 42px 0 52px;
+  grid-template-columns: 0.92fr 1.08fr;
+  gap: 34px;
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0 22px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  background: #f2f2f0;
+  color: #343438;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.hero h1 {
+  font-size: clamp(54px, 5.4vw, 78px);
+  max-width: 610px;
+}
+
+.hero-subtitle {
+  max-width: 590px;
+  margin: 26px 0 28px;
+  font-size: clamp(17px, 1.55vw, 22px);
+}
+
+.primary-cta {
+  min-height: 56px;
+  border-radius: 16px;
+}
+
+.primary-cta.is-disabled {
+  opacity: .9;
+  cursor: default;
+}
+
+.phone-stage {
+  min-height: 500px;
+  display: grid;
+  grid-template-columns: minmax(160px, .72fr) minmax(285px, 1fr);
+  align-items: center;
+  justify-items: center;
+  gap: 2px;
+  padding-right: 34px;
+}
+
+.mascot-cluster {
+  position: relative;
+  width: 230px;
+  height: 360px;
+  align-self: center;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.hero-mascot {
+  width: 205px;
+  height: auto;
+  color: #0b0b0c;
+  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, .08));
+}
+
+.mascot-message {
+  position: absolute;
+  top: 22px;
+  left: 18px;
+  font-family: Caveat, cursive;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: .9;
+  transform: rotate(-6deg);
+  white-space: nowrap;
+}
+
+.mascot-arrow {
+  position: absolute;
+  width: 118px;
+  height: 54px;
+  top: 76px;
+  left: 57px;
+  overflow: visible;
+}
+
+.mascot-arrow path,
+.whatsapp-note path {
+  fill: none;
+  stroke: #111;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.phone.phone-hero {
+  width: min(324px, 40vw);
+  height: 570px;
+  transform: rotate(2.2deg) translateY(8px);
+  border-radius: 48px;
+  box-shadow: 0 34px 68px rgba(0,0,0,.22);
+  z-index: 2;
+}
+
+.phone.phone-hero:hover {
+  transform: rotate(1deg) translateY(4px);
+}
+
+.chat-body {
+  padding-top: 28px;
+}
+
+.chat-send {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: inline-grid;
+  place-items: center;
+  background: #0b0b0c;
+  color: #fff;
+}
+
+.whatsapp-note {
+  position: absolute;
+  right: -2px;
+  bottom: 86px;
+  display: flex;
+  align-items: flex-start;
+  gap: 3px;
+  font-family: Caveat, cursive;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: .95;
+  transform: rotate(-5deg);
+}
+
+.whatsapp-note svg {
+  width: 46px;
+  height: 72px;
+  margin-top: -42px;
+}
+
+.side-note {
+  display: none;
+}
+
+.steps-band {
+  border-top: 1px solid #ececea;
+  border-bottom: 1px solid #ececea;
+  background: #fff;
+  padding: 38px 0 42px;
+}
+
+.steps-band .steps-grid {
+  margin-top: 0;
+}
+
+.steps-band .step-card {
+  border-top: 0;
+  padding: 0 24px;
+  min-height: 155px;
+  text-align: center;
+  position: relative;
+}
+
+.steps-band .step-card:not(:last-child)::after {
+  content: "→";
+  position: absolute;
+  right: -10px;
+  top: 58px;
+  color: #c8c8c8;
+  font-size: 25px;
+  font-weight: 300;
+}
+
+.steps-band .step-number {
+  margin: 0 auto;
+  width: 46px;
+  height: 46px;
+  background: transparent;
+  border: 1px solid #dcdcd8;
+}
+
+.steps-band .step-card h3 {
+  margin: 18px 0 8px;
+}
+
+.intro-band {
+  background: #f7f7f5;
+  padding: 76px 0;
+}
+
+.plans-section {
+  border-top: 0;
+}
+
+.plan-card {
+  border-radius: 22px;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, .045);
+}
+
+.plan-card.featured {
+  background: #0d0d0f;
+  border-color: #0d0d0f;
+  color: #fff;
+}
+
+.plan-card.featured .plan-kicker,
+.plan-card.featured .plan-description,
+.plan-card.featured .price span,
+.plan-card.featured ul {
+  color: rgba(255,255,255,.78);
+}
+
+.plan-card.featured .primary-cta {
+  background: #fff;
+  color: #0b0b0c;
+}
+
+.plan-badge {
+  background: #2f6fe4;
+  font-size: 10px;
+}
+
+.faq-section {
+  background: #f7f7f5;
+  padding: 92px 0;
+}
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: .72fr 1.28fr;
+  gap: 84px;
+  align-items: start;
+}
+
+.faq-grid h2 {
+  margin: 0;
+  font-size: clamp(40px, 4.6vw, 62px);
+  letter-spacing: -.055em;
+  line-height: 1;
+}
+
+.faq-lead {
+  color: #6d6d72;
+  max-width: 360px;
+  line-height: 1.6;
+}
+
+.faq-list {
+  border-top: 1px solid #d9d9d6;
+}
+
+.faq-list details {
+  border-bottom: 1px solid #d9d9d6;
+  padding: 0;
+}
+
+.faq-list summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 0;
+  font-size: 17px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.faq-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-list summary span {
+  font-size: 23px;
+  font-weight: 400;
+  transition: transform .2s ease;
+}
+
+.faq-list details[open] summary span {
+  transform: rotate(45deg);
+}
+
+.faq-list details p {
+  margin: -6px 0 22px;
+  color: #68686d;
+  line-height: 1.62;
+  max-width: 760px;
+}
+
+.promise {
+  background: #0b0b0c;
+  color: #fff;
+}
+
+.promise .eyebrow,
+.promise p:not(.eyebrow) {
+  color: rgba(255,255,255,.68);
+}
+
+.promise .primary-cta {
+  background: #fff;
+  color: #0b0b0c;
+}
+
+.footer {
+  background: #fff;
+}
+
+@media (max-width: 1080px) {
+  .phone-stage {
+    grid-template-columns: 165px minmax(270px, 1fr);
+    padding-right: 0;
+  }
+
+  .mascot-cluster {
+    width: 190px;
+  }
+
+  .hero-mascot {
+    width: 180px;
+  }
+
+  .mascot-message {
+    font-size: 26px;
+    left: 9px;
+  }
+
+  .phone.phone-hero {
+    width: 305px;
+  }
+
+  .whatsapp-note {
+    right: -18px;
+  }
+}
+
+@media (max-width: 920px) {
+  .hero {
+    padding-top: 42px;
+  }
+
+  .phone-stage {
+    grid-template-columns: minmax(150px, .68fr) minmax(270px, 1fr);
+    min-height: 610px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .mascot-cluster {
+    height: 350px;
+  }
+
+  .hero-mascot {
+    width: 176px;
+  }
+
+  .phone.phone-hero {
+    width: min(310px, 58vw);
+  }
+
+  .faq-grid {
+    grid-template-columns: 1fr;
+    gap: 38px;
+  }
+}
+
+@media (max-width: 680px) {
+  .hero {
+    padding-top: 34px;
+  }
+
+  .hero-badge {
+    font-size: 11px;
+  }
+
+  .phone-stage {
+    min-height: 610px;
+    width: 100%;
+    grid-template-columns: 1fr;
+    position: relative;
+    padding-top: 160px;
+  }
+
+  .mascot-cluster {
+    position: absolute;
+    z-index: 3;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-104%);
+    width: 150px;
+    height: 210px;
+  }
+
+  .hero-mascot {
+    width: 128px;
+  }
+
+  .mascot-message {
+    top: 0;
+    left: 8px;
+    font-size: 23px;
+  }
+
+  .mascot-arrow {
+    top: 49px;
+    left: 38px;
+    width: 88px;
+  }
+
+  .phone.phone-hero {
+    width: min(310px, 86vw);
+    height: 550px;
+    transform: rotate(1.4deg);
+  }
+
+  .whatsapp-note {
+    right: 4px;
+    bottom: 28px;
+    font-size: 17px;
+  }
+
+  .steps-band {
+    padding: 28px 0;
+  }
+
+  .steps-band .steps-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px 4px;
+  }
+
+  .steps-band .step-card {
+    min-height: 160px;
+    padding: 0 10px;
+  }
+
+  .steps-band .step-card:not(:last-child)::after {
+    display: none;
+  }
+
+  .faq-section {
+    padding: 66px 0;
+  }
 }

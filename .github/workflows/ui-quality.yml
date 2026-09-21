@@ -27,11 +27,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npm install --include=optional
+      - run: npm ci --include=optional
       - run: npm run check
       - run: npm run build
       - run: npx playwright install --with-deps chromium firefox webkit
-      - run: npm run test:ui
+      - run: npm run test:ui -- --workers=1
       - name: Build previous release for measured mobile comparison
         run: |
           git worktree add --detach /tmp/registreai-before cada12093b38ccc233fcface7a7e1550b106363a

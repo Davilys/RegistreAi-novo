@@ -1,59 +1,45 @@
-import { Link } from "react-router-dom";
-import RegMark from "../brand/RegMark";
+import { COMPANY } from '../config/company';
+import { CompanyDetails, LegalLayout } from '../components/Business';
 
 export default function PrivacyV2() {
   return (
-    <main className="legal-page">
-      <header className="legal-header wrap">
-        <Link className="brand" to="/">
-          <RegMark size={40} />
-          <span>RegistreAi</span>
-        </Link>
-        <Link className="legal-back" to="/">← Voltar</Link>
-      </header>
-
-      <article className="legal-content">
-        <p className="eyebrow">PRIVACIDADE</p>
-        <h1>Política de Privacidade</h1>
-        <p className="legal-updated">Versão preliminar para ambiente de desenvolvimento.</p>
-
-        <h2>1. Nosso compromisso</h2>
-        <p>
-          A RegistreAi trata dados pessoais exclusivamente para viabilizar a contratação, execução,
-          acompanhamento e suporte relacionados aos serviços oferecidos. A versão final desta política
-          será revisada antes da publicação em produção.
-        </p>
-
-        <h2>2. Dados utilizados</h2>
-        <p>
-          Podemos tratar dados cadastrais, dados de contato, informações do titular da marca,
-          documentos enviados pelo cliente, dados de pagamento, mensagens trocadas com a Reg e
-          informações necessárias ao acompanhamento do processo perante o INPI.
-        </p>
-
-        <h2>3. Finalidades</h2>
-        <p>
-          Os dados são utilizados para identificar o cliente, executar o contrato, preparar e acompanhar
-          processos, comunicar prazos e movimentações, cumprir obrigações legais e manter a segurança da plataforma.
-        </p>
-
-        <h2>4. Segurança</h2>
-        <p>
-          A arquitetura utiliza isolamento por cliente, controle de acesso, registros de auditoria,
-          armazenamento privado de documentos e medidas técnicas destinadas a reduzir acesso indevido.
-        </p>
-
-        <h2>5. Direitos do titular</h2>
-        <p>
-          O titular poderá solicitar acesso, correção e demais providências previstas na legislação aplicável,
-          observadas as hipóteses legais de retenção de dados.
-        </p>
-
-        <h2>6. Contato</h2>
-        <p>
-          O canal definitivo de privacidade e os dados empresariais serão incluídos antes da publicação da plataforma.
-        </p>
-      </article>
-    </main>
+    <LegalLayout eyebrow="PRIVACIDADE" title="Política de Privacidade">
+      <p>A <strong>{COMPANY.legalName}</strong>, CNPJ {COMPANY.cnpj}, é responsável pelo tratamento de dados pessoais realizado para atender clientes e prestar os serviços da RegistreAi. Esta política explica o tratamento no site, no atendimento e na execução dos serviços.</p>
+      <div className="legal-business"><CompanyDetails /></div>
+      <h2>1. Contato para privacidade</h2>
+      <p>Para exercer direitos, pedir esclarecimentos ou comunicar um problema de privacidade, escreva para <a href={`mailto:${COMPANY.email}?subject=Privacidade%20e%20LGPD`}>{COMPANY.email}</a>, com o assunto “Privacidade e LGPD”, ou use o WhatsApp {COMPANY.phoneDisplay}. Este é o canal da empresa para encaminhamento ao responsável pelo tratamento de dados. Não é necessário enviar senha ou documento completo na primeira mensagem.</p>
+      <h2>2. Dados que podem ser tratados</h2>
+      <p><strong>Atendimento e cadastro:</strong> nome, telefone, e-mail, CPF ou CNPJ, endereço, identificação do titular e de seu representante, mensagens e documentos fornecidos. No WhatsApp, também podem ser recebidos dados do perfil e metadados da conversa disponibilizados pelo serviço.</p>
+      <p><strong>Registro de marca:</strong> nome e apresentação da marca, atividade, classes, logotipos, evidências, números de processo, petições e movimentações consultadas em fontes oficiais. Documentos podem conter dados de terceiros; envie somente o necessário e com autorização ou outra justificativa legal.</p>
+      <p><strong>Contratação e cobrança:</strong> plano escolhido, aceite, data e registros de confirmação, valores, identificadores de cobrança, comprovantes e situação de pagamento. O pagamento é processado pelo provedor contratado; não solicitamos senhas bancárias.</p>
+      <p><strong>Navegação e segurança:</strong> IP, data e hora, endereço solicitado, informações técnicas do navegador, erros e registros necessários ao funcionamento e à proteção do serviço. Não envie dados sensíveis, como informações de saúde ou biometria, sem necessidade específica e orientação sobre a finalidade.</p>
+      <h2>3. Para que usamos os dados e em quais bases</h2>
+      <p>Usamos dados para responder a uma solicitação e preparar ou executar a contratação, incluindo identificação do titular, pesquisa, documentos, acompanhamento e comunicação de prazos. Nesses casos, a base é a execução do contrato ou procedimentos preliminares solicitados pelo titular.</p>
+      <p>Obrigações fiscais, legais e regulatórias justificam os dados que precisem ser mantidos para seu cumprimento. A conservação de provas e a defesa em processos se apoiam no exercício regular de direitos. Medidas proporcionais contra fraude e acesso indevido podem se apoiar em legítimo interesse, com avaliação de necessidade e dos direitos do titular.</p>
+      <p>Quando uma finalidade depender de consentimento, ele será solicitado de forma específica e poderá ser revogado. Comunicações operacionais não se confundem com publicidade: o contato para executar um serviço não autoriza qualquer campanha de marketing. Dados sensíveis, se estritamente necessários, exigem hipótese legal própria e proteção compatível.</p>
+      <h2>4. Com quem os dados podem ser compartilhados</h2>
+      <p>O compartilhamento é limitado à finalidade e à necessidade do serviço. Inclui prestadores de infraestrutura e banco de dados, comunicação por WhatsApp, processamento de pagamentos, ferramentas de IA e os órgãos necessários ao processo. Na arquitetura do serviço, esses fornecedores incluem Hostinger, Supabase, Meta/WhatsApp, Asaas e OpenAI, conforme a etapa efetivamente utilizada.</p>
+      <p>Também pode haver compartilhamento com profissionais ou prestadores autorizados para executar uma atividade contratada e com autoridades quando exigido por lei. O INPI recebe as informações necessárias ao pedido e pode publicar dados nos termos de suas regras. Dados disponibilizados pelo órgão podem ser acessados por terceiros; nossa política não controla as publicações oficiais.</p>
+      <p>Não comercializamos listas de dados pessoais. O envio de dados para fornecedores deve observar limitação de acesso, finalidade e obrigações contratuais. Ao sair do site para o WhatsApp ou para um ambiente de pagamento, aplicam-se também as políticas do respectivo fornecedor.</p>
+      <h2>5. Uso de inteligência artificial</h2>
+      <p>A Reg utiliza dados fornecidos na conversa e informações relacionadas à marca para auxiliar respostas, organização e preparação de etapas. Os dados necessários podem ser processados pelo provedor de IA. O envio deve ser limitado ao contexto pertinente; não inclua segredos ou informações pessoais desnecessárias.</p>
+      <p>Respostas de IA podem conter erros. O titular pode solicitar esclarecimentos sobre os critérios e procedimentos utilizados e a revisão de decisões tomadas unicamente por tratamento automatizado que afetem seus interesses, nos termos da LGPD. Não utilizamos o conteúdo das conversas para publicidade personalizada sem uma base legal adequada.</p>
+      <h2>6. Cookies e serviços externos no site</h2>
+      <p>Esta versão do site não instala pixels de publicidade nem ferramentas de análise comportamental. A navegação pública não exige cadastro. O navegador pode manter cache de arquivos para desempenho. Fontes tipográficas são carregadas pelo Google Fonts, o que envolve conexão ao fornecedor e envio de informações técnicas, como IP e dados do navegador.</p>
+      <p>Os botões de WhatsApp abrem uma página externa somente quando acionados. Cookies e tratamentos desse ambiente são regidos também pela Meta. Caso sejam adicionadas ferramentas não essenciais, a política e os controles de preferência devem ser atualizados antes da ativação, com consentimento quando necessário. Recusar finalidades opcionais não deve impedir as funcionalidades essenciais.</p>
+      <h2>7. Processamento fora do Brasil</h2>
+      <p>Fornecedores de nuvem, comunicação e IA podem operar no Brasil e no exterior, inclusive nos Estados Unidos, conforme sua infraestrutura e contratação. Transferências internacionais devem observar a LGPD e os mecanismos aplicáveis regulamentados pela ANPD, como cláusulas contratuais ou outra hipótese legal válida. Informações sobre os destinatários e as salvaguardas aplicáveis podem ser solicitadas pelo canal de privacidade.</p>
+      <h2>8. Conservação, eliminação e segurança</h2>
+      <p>Os dados são mantidos pelo tempo necessário ao atendimento, à execução do serviço e às finalidades informadas. Após seu término, podem permanecer os registros necessários ao cumprimento de obrigações legais, à prestação de contas e ao exercício de direitos pelos prazos aplicáveis. Não prometemos eliminar imediatamente documentos que devam ser preservados por lei.</p>
+      <p>Encerrada a finalidade e inexistindo justificativa de conservação, os dados devem ser eliminados ou anonimizados. Cópias técnicas e registros de segurança seguem seus ciclos de retenção. O titular pode solicitar informações sobre os prazos aplicáveis aos seus dados.</p>
+      <p>Utilizamos medidas de proteção compatíveis com as operações, incluindo controle de acesso e proteção das comunicações e dos dados armazenados. Nenhum sistema é infalível. Incidentes que possam gerar risco ou dano relevante serão tratados e comunicados à ANPD e aos titulares quando exigido pela legislação, sem transferir ao cliente a responsabilidade por falhas internas.</p>
+      <h2>9. Seus direitos</h2>
+      <p>Você pode solicitar confirmação e acesso ao tratamento, correção, informações sobre compartilhamento, portabilidade quando regulamentada, anonimização, bloqueio ou eliminação nos casos legais, revogação do consentimento e revisão de decisões automatizadas. Também pode se opor a tratamento irregular e peticionar à ANPD ou aos órgãos de defesa do consumidor.</p>
+      <p>A resposta observará os prazos legais. Para confirmação e acesso, a LGPD prevê resposta simplificada imediata ou declaração completa em até 15 dias, conforme o pedido. Podemos solicitar apenas a comprovação proporcional de identidade necessária para evitar divulgar dados a terceiros. As solicitações são gratuitas. Se não for possível atender integralmente, explicaremos o motivo e a base aplicável.</p>
+      <h2>10. Crianças, adolescentes e atualizações</h2>
+      <p>O atendimento comercial é direcionado a pessoas capazes de contratar e a representantes autorizados. Dados de crianças e adolescentes, quando envolvidos legitimamente em uma solicitação, exigem avaliação específica, observância do melhor interesse e participação do responsável quando aplicável. Não são solicitados para fins publicitários.</p>
+      <p>Esta política pode ser atualizada para refletir mudanças no serviço ou na legislação. A data desta página identifica a versão. Alterações relevantes de finalidade devem ser comunicadas, com novo consentimento quando necessário. Dúvidas podem ser encaminhadas a {COMPANY.email}.</p>
+      <p className="legal-sources">Referência: <a href="https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm" target="_blank" rel="noopener noreferrer">Lei Geral de Proteção de Dados Pessoais (LGPD)</a>.</p>
+    </LegalLayout>
   );
 }

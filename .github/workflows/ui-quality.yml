@@ -35,7 +35,7 @@ jobs:
       - name: Build previous release for measured mobile comparison
         run: |
           git worktree add --detach /tmp/registreai-before cada12093b38ccc233fcface7a7e1550b106363a
-          npm --prefix /tmp/registreai-before ci --include=optional
+          npm --prefix /tmp/registreai-before install --include=optional
           npm --prefix /tmp/registreai-before run build
       - name: Compare mobile page height with previous release
         run: node tests/ui/measure-mobile.mjs /tmp/registreai-before/dist dist test-results/mobile-comparison.json

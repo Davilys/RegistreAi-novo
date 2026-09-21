@@ -1,0 +1,13 @@
+project_id = "qxgfkpqlaffsesqtnojh"
+
+[functions.registreai-health]
+verify_jwt = false
+
+[functions.asaas-webhook]
+verify_jwt = false
+
+[functions.whatsapp-webhook]
+verify_jwt = false
+
+[functions.contract-public]
+verify_jwt = false

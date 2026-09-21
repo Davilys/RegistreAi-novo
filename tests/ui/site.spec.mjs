@@ -50,10 +50,10 @@ for (const width of [390,1440]) {
     await page.setViewportSize({width,height:900}); await openHome(page);
     for(const [label,id] of [['Como funciona','como-funciona'],['Planos','planos'],['Dúvidas','duvidas']]) {
       await page.getByRole('button',{name:'Voltar ao início',exact:true}).click();
-      await expect.poll(()=>page.evaluate(()=>scrollY)).toBeLessThan(5);
+      await expect.poll(()=>page.evaluate(()=>scrollY)).toBeLessThan(1);
       await nav(page).getByRole('button',{name:label,exact:true}).click();
-      await expect.poll(()=>page.locator(`#${id}`).evaluate(el=>el.getBoundingClientRect().top)).toBeGreaterThanOrEqual(20);
-      await expect.poll(()=>page.locator(`#${id}`).evaluate(el=>el.getBoundingClientRect().top)).toBeLessThanOrEqual(28);
+      // Wait for the destination, not the final frames of Firefox's smooth animation.
+      await expect.poll(()=>page.locator(`#${id}`).evaluate(el=>Math.abs(el.getBoundingClientRect().top-24))).toBeLessThan(1);
       const position=await page.evaluate(()=>scrollY); await page.waitForTimeout(1200);
       expect(Math.abs(await page.evaluate(()=>scrollY)-position)).toBeLessThan(2);
     }
@@ -69,12 +69,14 @@ for (const width of [390,1440]) {
     const ctas=page.locator('.primary-cta'); expect(await ctas.count()).toBe(6);
     let clicked=0;
     for(const cta of await ctas.all()) {
-      await expect(cta).toHaveAccessibleName('Falar com a Reg');
+      await expect(cta).toHaveAttribute('aria-label','Falar com a Reg');
       await expect(cta).toHaveAttribute('target','_blank');
       const href=new URL(await cta.getAttribute('href'));
       expect(href.origin).toBe('https://wa.me'); expect(href.pathname).toBe('/'+expectedPhone);
       expect(href.searchParams.get('text')).toContain('Oi, Reg.');
+      // The desktop-only header link is intentionally absent from the mobile accessibility tree.
       if(!await cta.isVisible()) continue;
+      await expect(cta).toHaveAccessibleName('Falar com a Reg');
       await cta.scrollIntoViewIfNeeded();
       const [popup]=await Promise.all([page.waitForEvent('popup'),cta.click()]);
       await popup.waitForLoadState('domcontentloaded');
@@ -101,7 +103,8 @@ test('privacy and terms are complete and start at top after footer navigation', 
     await expect.poll(()=>page.evaluate(()=>scrollY)).toBeLessThan(5);
     await expect(page.locator('.legal-header svg')).toHaveAttribute('viewBox','0 0 240 260');
     const text=await page.locator('article').innerText();
-    expect(text).not.toMatch(/preliminar|ambiente de desenvolvimento|serão incluídos|versão final será|\[CNPJ\]/i);
+    // "Procedimentos preliminares" is a lawful purpose, not a development disclaimer.
+    expect(text).not.toMatch(/versão preliminar|texto preliminar|ambiente de desenvolvimento|serão incluídos|versão final será|\[CNPJ\]/i);
     expect(text).toContain('Registreai Marcas e Patentes LTDA'); expect(text).toContain('59.197.668/0001-13');
     expect(text).toContain('Rua Itapura, 975 - Vila Gomes Cardim'); expect(text).toContain('03310-000');
     expect(text).toContain('ola@registreai.com.br'); expect(text).toContain('(11) 92068-1100');

@@ -1,53 +1,44 @@
-import { Link } from "react-router-dom";
-import RegMark from "../brand/RegMark";
+import { Link } from 'react-router-dom';
+import { COMPANY, PLANS } from '../config/company';
+import { CompanyDetails, LegalLayout } from '../components/Business';
 
 export default function TermsV2() {
   return (
-    <main className="legal-page">
-      <header className="legal-header wrap">
-        <Link className="brand" to="/">
-          <RegMark size={40} />
-          <span>RegistreAi</span>
-        </Link>
-        <Link className="legal-back" to="/">← Voltar</Link>
-      </header>
-
-      <article className="legal-content">
-        <p className="eyebrow">TERMOS</p>
-        <h1>Termos de Serviço</h1>
-        <p className="legal-updated">Versão preliminar para ambiente de desenvolvimento.</p>
-
-        <h2>1. Serviço</h2>
-        <p>
-          A RegistreAi oferece uma experiência digital de apoio ao registro e acompanhamento de marcas,
-          conduzida pela Reg, sua inteligência artificial especializada.
-        </p>
-
-        <h2>2. Decisão do INPI</h2>
-        <p>
-          A RegistreAi atua na preparação e acompanhamento do processo, mas a decisão sobre deferimento
-          ou indeferimento pertence ao INPI. A versão final do contrato definirá as condições específicas
-          das garantias comerciais oferecidas.
-        </p>
-
-        <h2>3. Plano Ilimitado</h2>
-        <p>
-          O Plano Ilimitado é vinculado ao mesmo CPF ou CNPJ titular informado na contratação e não poderá
-          ser utilizado para pedidos em nome de terceiros. Taxas oficiais do INPI são pagas separadamente.
-        </p>
-
-        <h2>4. Responsabilidades do cliente</h2>
-        <p>
-          Quando documentos, informações, confirmações ou pagamentos dependerem do cliente, a Reg solicitará
-          o necessário. O cliente é responsável por fornecer essas informações dentro do prazo comunicado.
-        </p>
-
-        <h2>5. Versão final</h2>
-        <p>
-          Estes termos são uma estrutura preliminar do ambiente de desenvolvimento e serão substituídos por
-          versão jurídica definitiva antes da publicação.
-        </p>
-      </article>
-    </main>
+    <LegalLayout eyebrow="TERMOS" title="Termos de Serviço">
+      <p>Estes Termos regulam o uso do site e a contratação dos serviços da <strong>{COMPANY.legalName}</strong>, que atua sob a marca RegistreAi. Leia as condições antes de contratar. Dúvidas, reclamações e pedidos de cancelamento podem ser enviados pelos canais abaixo.</p>
+      <div className="legal-business"><CompanyDetails /></div>
+      <h2>1. O serviço e a contratação</h2>
+      <p>A RegistreAi oferece apoio à pesquisa de viabilidade, preparação de pedidos e acompanhamento administrativo de marcas perante o Instituto Nacional da Propriedade Industrial (INPI). A Reg é uma assistente de inteligência artificial, não uma pessoa nem um serviço oficial do INPI. A empresa responde pelos serviços que contratar.</p>
+      <p>Iniciar uma conversa não gera cobrança ou contratação automática. Antes do aceite, o cliente recebe a identificação do titular, o plano, os valores, as etapas incluídas e eventuais condições específicas, com possibilidade de corrigir dados. O contrato e o registro do aceite serão disponibilizados para consulta e conservação. A busca de viabilidade começa após contratação e confirmação do pagamento da adesão.</p>
+      <h2>2. Planos, valores e taxas oficiais</h2>
+      <p><strong>Proteção:</strong> R$ {PLANS.protection.setup} de adesão + R$ {PLANS.protection.monthly}/mês, para uma marca por assinatura, sem fidelidade. A adesão cobre a busca de viabilidade e o trabalho de protocolo. A mensalidade cobre o acompanhamento contratado durante a vigência do plano.</p>
+      <p><strong>Ilimitado:</strong> R$ {PLANS.unlimited.setup} de adesão + R$ {PLANS.unlimited.monthly}/mês. A adesão cobre o trabalho inicial e o plano inclui honorários de novos pedidos ilimitados durante sua vigência, todos para o mesmo CPF ou CNPJ titular. Não há carência nem permanência mínima.</p>
+      <p>As taxas oficiais do INPI não estão incluídas nesses valores: são informadas e pagas separadamente pelo cliente quando aplicáveis. O número de classes e as especificações de cada pedido são apresentados antes de sua confirmação. Descontos em taxas dependem dos requisitos do INPI; não são garantidos apenas por selecionar um plano.</p>
+      <p>As cobranças são apresentadas pelos canais oficiais, com identificação do beneficiário e vencimento. Recorrência de mensalidade não autoriza débito automático sem a autorização exigida pelo meio de pagamento. Não haverá cobrança de serviço adicional sem informação prévia e aceite expresso. Alterações de preço devem ser comunicadas antes de sua aplicação, respeitando a oferta e o contrato em vigor.</p>
+      <h2>3. Titularidade e Plano Ilimitado</h2>
+      <p>O pedido é apresentado com os dados do titular informado e confirmado pelo cliente, observados os requisitos de legitimidade e autorização do INPI. A RegistreAi não se torna dona da marca por prestar o serviço. O encerramento da assinatura ou das atividades da empresa não transfere a titularidade do pedido para a RegistreAi.</p>
+      <p>O Ilimitado pertence a um único CPF ou CNPJ. Não pode ser compartilhado, revendido ou usado para registrar marcas em nome de terceiros. Um CNPJ diferente, ainda que do mesmo grupo ou sócio, ou a troca de CPF por CNPJ exige contratação própria ou ajuste contratual expresso. O cliente deve ter poderes para agir em nome do titular. A validade formal de um documento não comprova, por si só, identidade ou representação.</p>
+      <h2>4. Viabilidade, protocolo e decisão</h2>
+      <p>A análise de viabilidade é uma avaliação de risco, limitada às informações e fontes disponíveis na data da pesquisa. Resultado favorável não significa marca livre de todo conflito nem aprovação do INPI. O cliente recebe o cenário para decidir antes do protocolo.</p>
+      <p>A preparação do pedido tem previsão de até 48 horas após o recebimento e a validação dos dados, documentos, confirmações e pagamentos necessários. A apresentação depende da disponibilidade dos sistemas oficiais e da autorização para o ato. Impedimentos serão comunicados com indicação do próximo passo. O prazo de decisão é do INPI e não se confunde com a preparação ou o protocolo.</p>
+      <p>Pagamento somente é considerado confirmado após verificação pelo respectivo meio de pagamento. Protocolo somente é confirmado com recibo ou informação oficial. As conversas e números exibidos na ilustração da página inicial são exemplos fictícios, não prova de um pedido real.</p>
+      <h2>5. Documentos, exigências e recursos</h2>
+      <p>O cliente deve fornecer informações verdadeiras, manter seus contatos atualizados e enviar, nos prazos comunicados, os documentos, confirmações e pagamentos que dependam dele. A empresa deve esclarecer o que é necessário e comunicar as movimentações cobertas pelo acompanhamento. Não envie senhas bancárias ou de contas pessoais por formulários públicos.</p>
+      <p>Exigências, oposições, indeferimentos e outras ocorrências serão analisados conforme o escopo contratado. Recursos e garantias comerciais incluídos na oferta devem ser respeitados. Serviços fora desse escopo precisam ser descritos, orçados e autorizados previamente; não são cobrados silenciosamente.</p>
+      <p>Qualquer garantia comercial não representa promessa de deferimento. Quando a oferta prever nova tentativa sem honorários, suas condições devem constar da contratação, sem afastar os direitos legais do consumidor; taxas oficiais continuam separadas. Atos judiciais não estão abrangidos por este serviço administrativo.</p>
+      <p>A falta de um item necessário pode impedir o cumprimento de um prazo. A causa deve ser verificada e registrada; não se presume responsabilidade exclusiva do cliente. Falhas da empresa ou de seus sistemas não podem ser atribuídas automaticamente ao contratante.</p>
+      <h2>6. Cancelamento, mensalidade e arrependimento</h2>
+      <p>O cliente pode pedir cancelamento a qualquer momento pelo WhatsApp {COMPANY.phoneDisplay} ou por <a href={`mailto:${COMPANY.email}?subject=Cancelamento`}>{COMPANY.email}</a>, sem multa de fidelidade. O pedido será confirmado, cessando as renovações futuras. O acompanhamento do período já pago permanece até o fim desse ciclo, salvo pedido de encerramento imediato ou exercício do direito de arrependimento.</p>
+      <p>Nas contratações de consumo realizadas à distância, o consumidor pode exercer o direito de arrependimento em sete dias, contados na forma do art. 49 do Código de Defesa do Consumidor, com devolução dos valores devidos conforme a lei. O aceite digital não afasta esse direito. Fora dessa hipótese, restituições são avaliadas conforme os serviços efetivamente prestados, a oferta e a legislação; não há retenção automática de todos os pagamentos.</p>
+      <p>O cancelamento do serviço não cancela automaticamente um pedido no INPI. No encerramento, o cliente deve receber as informações e os documentos disponíveis, inclusive os prazos em aberto, para continuar o acompanhamento por conta própria ou com outro prestador. Valores oficiais seguem também as regras de restituição do órgão, sem afastar responsabilidades legais da RegistreAi.</p>
+      <p>Em caso de inadimplência, o cliente será informado sobre a pendência e eventual suspensão. Prazos legais do INPI não são suspensos por falta de pagamento da assinatura. A empresa deve comunicar o encerramento do acompanhamento e as pendências conhecidas; uma nova cobrança não reabre prazo perdido.</p>
+      <h2>7. Uso responsável, dados e segurança</h2>
+      <p>É vedado usar o serviço para falsificar documentos, violar direitos de terceiros, obter dados de outros clientes ou praticar atos ilícitos. A empresa pode interromper uma ação insegura ou sem autorização, explicando o impedimento. A utilização de IA não elimina o dever de informação nem a responsabilidade pelos serviços prestados.</p>
+      <p>O tratamento de dados está descrito na <Link to="/politica-de-privacidade">Política de Privacidade</Link>. O cliente pode solicitar esclarecimento ou revisão de decisões automatizadas que afetem seus interesses pelos canais de atendimento. Não há renúncia a direitos em razão do uso da IA.</p>
+      <h2>8. Atendimento e disposições finais</h2>
+      <p>A RegistreAi confirma o recebimento de solicitações e responde às demandas de informação, reclamação, suspensão e cancelamento no prazo legal aplicável, observado o limite de cinco dias do Decreto nº 7.962/2013. O endereço informado identifica a empresa; o atendimento do serviço é online.</p>
+      <p>Estes Termos e as condições aceitas integram a contratação, respeitada a vinculação da oferta e a norma mais favorável ao consumidor quando aplicável. Atualizações não retiram retroativamente direitos adquiridos. Aplica-se a legislação brasileira, preservado o foro e os demais direitos assegurados ao consumidor, inclusive o de seu domicílio.</p>
+      <p className="legal-sources">Referências: <a href="https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm" target="_blank" rel="noopener noreferrer">Código de Defesa do Consumidor</a> e <a href="https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2013/decreto/d7962.htm" target="_blank" rel="noopener noreferrer">Decreto nº 7.962/2013</a>.</p>
+    </LegalLayout>
   );
 }

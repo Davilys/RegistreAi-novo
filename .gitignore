@@ -30,3 +30,9 @@ dist-ssr
 services/**/.env
 services/**/.env.*
 !services/**/.env.example
+
+# Browser test output; evidence belongs in CI artifacts, never customer data.
+/test-results/
+/playwright-report/
+/playwright/.cache/
+*.tsbuildinfo

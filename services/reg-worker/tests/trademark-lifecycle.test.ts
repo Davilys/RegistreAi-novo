@@ -1,0 +1,8 @@
+import assert from "node:assert/strict";import test from "node:test";
+import { LEGAL_BRANCHES, LEGAL_BRANCH_GATE, transitionLifecycle } from "../src/trademark-lifecycle.js";
+const start={stage:"LEAD_INTAKE" as const,monitoringActive:true,commercialStatus:"CURRENT" as const};
+test("covers every contentious and petition branch with human gates",()=>{assert.equal(LEGAL_BRANCHES.length,8);for(const b of LEGAL_BRANCHES)assert.deepEqual(LEGAL_BRANCH_GATE[b],{analysisDraftAllowed:true,humanLegalApprovalRequired:true,customerConfirmationRequired:true,procuradorOfficialClickRequired:true})});
+test("forces ordered lifecycle and official human gate",()=>{assert.equal(transitionLifecycle(start,{type:"ADVANCE",targetStage:"QUALIFICATION"}).requiresOfficialActGate,false);assert.throws(()=>transitionLifecycle(start,{type:"ADVANCE",targetStage:"FILING_HUMAN_PROTOCOL"}),/INVALID_LIFECYCLE_TRANSITION/)});
+test("RPI event opens legal review, never automated legal judgment",()=>{const r=transitionLifecycle({...start,stage:"RPI_MONITORING"},{type:"RPI_EVENT",legalBranch:"OPPOSITION"});assert.equal(r.requiresHumanLegalReview,true);assert.equal(r.legalBranch,"OPPOSITION")});
+test("delinquency blocks new official acts but preserves state",()=>{const c={...start,stage:"GRU_CUSTOMER_CONFIRMATION" as const,commercialStatus:"PAST_DUE" as const};assert.throws(()=>transitionLifecycle(c,{type:"ADVANCE",targetStage:"GRU_HUMAN_ISSUANCE"}),/COMMERCIAL_STATUS/)});
+test("cancellation stops monitoring; reactivation restores billing state only",()=>{const cancelled=transitionLifecycle(start,{type:"CANCEL"});assert.equal(cancelled.monitoringActive,false);assert.equal(transitionLifecycle(cancelled,{type:"REACTIVATE"}).monitoringActive,false)});

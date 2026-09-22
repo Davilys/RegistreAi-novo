@@ -4,6 +4,7 @@ import LandingV2 from "./pages/LandingV2";
 import PrivacyV2 from "./pages/PrivacyV2";
 import TermsV2 from "./pages/TermsV2";
 import ContractView from "./pages/ContractView";
+import AdminPreview from "./pages/AdminPreview";
 
 function RouteScrollReset() {
   const { pathname } = useLocation();
@@ -19,6 +20,7 @@ export default function App() {
     <Route path="/politica-de-privacidade" element={<PrivacyV2 />} />
     <Route path="/termos-de-uso" element={<TermsV2 />} />
     <Route path="/contrato/:token" element={<ContractView />} />
+    <Route path="/admin-preview" element={<AdminPreview />} />
     <Route path="*" element={<LandingV2 />} />
   </Routes></BrowserRouter>;
 }

@@ -31,3 +31,12 @@ Fontes oficiais de operação: https://www.gov.br/inpi/pt-br/cadastro-no-e-inpi 
 
 ## Contrato eletrônico e entrega
 A interface atual que instrui o cliente a responder `ACEITO` no WhatsApp é legado e não atende sozinha a este blueprint. Antes da produção, substituir por ação autenticada no próprio documento, com checkbox desmarcado e confirmação subsequente; a frase em canal pode ser evidência complementar. Não criar cobrança até a conclusão e entrega dos artefatos. A procuração deve possuir `instrument_id`, versão, hash e trilha próprios, sem ser fundida ao aceite dos Termos.
+
+## WhatsApp: perguntar o mínimo, confirmar o todo
+Os campos do INPI são o modelo final, não um questionário bruto. A primeira pergunta é PF ou PJ.
+- PF: pedir CPF; nome completo apenas se não puder ser resolvido com confiança; CEP, número, complemento opcional e e-mail. Resolver logradouro/bairro/cidade/UF pelo CEP, mostrar fonte/data e pedir correção/confirmação.
+- PJ: pedir CNPJ; consultar razão social, situação, natureza, porte e endereço em fonte pública oficial atual quando disponível. Não transcrever pelo cliente. Pedir CEP/número/complemento apenas se faltar, divergir ou houver endereço de correspondência válido; pedir nome, CPF e e-mail do representante para contrato/procuração.
+- Reaproveitar o número verificado do WhatsApp como contato, mostrar que será usado e pedir confirmação. Ele não prova identidade sozinho.
+- Nacionalidade/estrangeiro, cotitularidade e elegibilidade a desconto só abrem seus ramos quando sinalizados ou não verificáveis.
+- Todo autofill guarda `source`, URL quando houver, `retrieved_at` e confirmação/correção. Nenhum dado de identidade é sobrescrito silenciosamente. A Reg mostra um resumo integral confirmado antes de contrato, procuração, GRU e protocolo.
+- Se CEP/CNPJ não resolver, estiver indisponível ou divergir, interromper o avanço e pedir somente o campo faltante/correção, sem inventar. A coleta segue minimização e finalidade; campos opcionais permanecem opcionais.

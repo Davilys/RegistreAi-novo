@@ -13,7 +13,8 @@
   "dependencies": {
     "@supabase/supabase-js": "2.89.0",
     "zod": "3.25.76",
-    "fflate": "0.8.2"
+    "fflate": "0.8.2",
+    "@registreai/product-config": "file:../../packages/product-config"
   },
   "devDependencies": {
     "@types/node": "22.16.5",

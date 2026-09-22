@@ -1,3 +1,4 @@
+import { PRICING } from '@registreai/product-config';
 /** Public business details confirmed by the owner on 2026-09-21. Never store secrets here. */
 export const COMPANY = Object.freeze({
   brand: 'RegistreAi',
@@ -18,6 +19,6 @@ export const CTA_LABEL = 'Falar com a Reg';
 export const LEGAL_UPDATED = '21 de setembro de 2026';
 export const LEGAL_VERSION = '2026-09-21';
 export const PLANS = Object.freeze({
-  protection: { setup: '197', monthly: '49' },
-  unlimited: { setup: '497', monthly: '599' },
+  protection: { setup: PRICING.protection.setupDisplay, monthly: PRICING.protection.monthlyDisplay },
+  unlimited: { setup: PRICING.unlimited.setupDisplay, monthly: PRICING.unlimited.monthlyDisplay },
 });

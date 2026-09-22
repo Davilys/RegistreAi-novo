@@ -136,6 +136,7 @@ export async function handleWorkflowTask(taskId: string) {
         // Fail closed until persisted Terms/POA/procurador/customer/human evidence is wired.
         // Retrying an unexecutable external act would create false readiness and queue noise.
         throw new Error("OFFICIAL_ACT_GATE_PERSISTENCE_NOT_WIRED");
+      }
 
       default:
         throw new Error("UNSUPPORTED_WORKFLOW_TASK:" + task.task_type);

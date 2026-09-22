@@ -59,11 +59,11 @@ test("requires the definitive dedicated natural-person procurador lane", () => {
   assert.deepEqual(validateOperatingModel({ model:"FORMAL_REPRESENTATION", dedicatedNaturalPersonProcuradorId:"proc-1", representativeUsesOwnCredentials:true, poaInstrumentId:"poa-1", humanOfficialClickRequired:true, portfolio:"REGISTREAI" }), []);
 });
 
-import { assertNoCrossPortfolio, authorizeHumanOfficialClick, validateDedicatedProcurador } from "../src/procurador-lane.js";
+import { assertRegistreAiPortfolio, authorizeHumanOfficialClick, validateDedicatedProcurador } from "../src/procurador-lane.js";
 test("blocks CNPJ/sham or cross-portfolio procurador lanes and requires human click", () => {
   const p = { id:"proc-1", personName:"Procurador Dedicado", cpfHash:"a".repeat(64), portfolio:"REGISTREAI" as const, status:"ACTIVE" as const, ownEinpiIdentityConfirmedAt:at, exclusivityConfirmedAt:at, poaTemplateVersion:"poa-v1" };
   assert.deepEqual(validateDedicatedProcurador(p), []);
-  assert.throws(() => assertNoCrossPortfolio("WebMarcas"), /CROSS_PORTFOLIO/);
+  assert.throws(() => assertRegistreAiPortfolio("OTHER_PORTFOLIO"), /CROSS_PORTFOLIO/);
   assert.throws(() => authorizeHumanOfficialClick(p, { portfolio:"REGISTREAI", procuradorId:"proc-1", processId:"p1", actType:"FILE_APPLICATION", immutablePreviewSha256:"a".repeat(64), customerConfirmedAt:at, termsInstrumentId:"t1", poaInstrumentId:"poa1" }), /HUMAN_PROCURADOR_CLICK_REQUIRED/);
   assert.doesNotThrow(() => authorizeHumanOfficialClick(p, { portfolio:"REGISTREAI", procuradorId:"proc-1", processId:"p1", actType:"FILE_APPLICATION", immutablePreviewSha256:"a".repeat(64), customerConfirmedAt:at, termsInstrumentId:"t1", poaInstrumentId:"poa1", humanReviewedAt:at, humanConfirmedAt:at }));
 });

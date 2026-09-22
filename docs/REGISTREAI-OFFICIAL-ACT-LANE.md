@@ -9,7 +9,7 @@ Não existe neste desenho:
 - CNPJ, IA, agência ou “escritório” fingindo ser procurador;
 - uso da senha do cliente ou do procurador por automação;
 - atuação “como se fosse o cliente”;
-- cruzamento de identidade, fila, email operacional, artefatos ou portfólio com WebMarcas;
+- cruzamento de identidade, fila, email operacional, artefatos ou portfólio com qualquer outra operação;
 - protocolo sem Termos, procuração, confirmação do cliente e revisão humana.
 
 ## Fluxo bloqueante
@@ -25,7 +25,7 @@ Não existe neste desenho:
 10. Monitoramento RPI, prazos, exceções e handoff humano.
 
 ## Separação de carteira
-O cadastro da lane exige `portfolio=REGISTREAI`, identidade e-INPI própria confirmada, vínculo operacional exclusivo/dedicado e versão de procuração. Qualquer referência `WebMarcas` é rejeitada. Segregação deve existir também em email, filas, storage, logs, dashboards e escala. Não criar pessoa de fachada: vínculo, poderes, responsabilidade, remuneração, substituição e continuidade devem ser reais e revisados.
+O cadastro da lane exige `portfolio=REGISTREAI`, identidade e-INPI própria confirmada, vínculo operacional exclusivo/dedicado e versão de procuração. Qualquer `portfolio` diferente de `REGISTREAI` é rejeitado. Segregação deve existir também em email, filas, storage, logs, dashboards e escala. Não criar pessoa de fachada: vínculo, poderes, responsabilidade, remuneração, substituição e continuidade devem ser reais e revisados.
 
 ## Gates antes de homologar
 - Caroline/legal: poderes, validade/assinatura/entrega da procuração, prazo de apresentação, substabelecimento/revogação, disclosure ao cliente e responsabilidade do procurador.

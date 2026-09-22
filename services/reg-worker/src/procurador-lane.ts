@@ -52,6 +52,6 @@ export function authorizeHumanOfficialClick(p: DedicatedProcurador, a: OfficialA
   if (errors.length) throw new Error(errors.join(","));
 }
 
-export function assertNoCrossPortfolio(value: string): void {
-  if (/webmarcas/i.test(value)) throw new Error("CROSS_PORTFOLIO_REFERENCE_FORBIDDEN");
+export function assertRegistreAiPortfolio(portfolio: string): void {
+  if (portfolio !== "REGISTREAI") throw new Error("CROSS_PORTFOLIO_REFERENCE_FORBIDDEN");
 }

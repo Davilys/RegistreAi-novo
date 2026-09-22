@@ -30,3 +30,6 @@ O serviço será executado no VPS da Hostinger via Docker após a validação de
 - Meta access token, phone number id e Graph API version;
 - Asaas webhook secret/API key;
 - chaves de criptografia de produção.
+
+## Meta Cloud API preparation
+`src/meta/` contains normalization, signature checks, tenant scoping, immediate authenticated media retrieval, outbound text/template clients, 24-hour policy, opt-out/handoff and homologation tests. See repository docs before any account change. Code readiness is not real-account readiness.

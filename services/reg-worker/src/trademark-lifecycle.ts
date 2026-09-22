@@ -73,3 +73,29 @@ export function validateCompletion(a: LifecycleAcceptance): string[] {
   if (!a.finalDossierDelivered) errors.push("FINAL_DOSSIER_NOT_DELIVERED");
   return errors;
 }
+
+export const PROCEDURAL_WORKFLOW = [
+  "RPI_DETECTED", "DEADLINE_VERIFIED", "PLAIN_LANGUAGE_RISK_EXPLAINED", "STRATEGY_PROPOSED",
+  "EVIDENCE_REQUESTED", "EVIDENCE_COMPLETE", "DRAFT_PREPARED", "CUSTOMER_SUMMARY_DELIVERED",
+  "CUSTOMER_APPROVED", "APPLICABLE_FEE_PAID", "HUMAN_LEGAL_APPROVED", "PROCURADOR_FILED",
+  "OFFICIAL_RECEIPT_DELIVERED", "OUTCOME_MONITORING"
+] as const;
+export type ProceduralStep = typeof PROCEDURAL_WORKFLOW[number];
+export type ProceduralCase = { branch: LegalBranch; step: ProceduralStep; deadlineVerified: boolean; feeApplicable: boolean };
+export function advanceProceduralCase(c: ProceduralCase, target: ProceduralStep): ProceduralCase {
+  const from=PROCEDURAL_WORKFLOW.indexOf(c.step),to=PROCEDURAL_WORKFLOW.indexOf(target);
+  if(to!==from+1)throw new Error(`INVALID_PROCEDURAL_TRANSITION:${c.step}->${target}`);
+  if(target==="PLAIN_LANGUAGE_RISK_EXPLAINED"&&!c.deadlineVerified)throw new Error("DEADLINE_MUST_BE_VERIFIED_FIRST");
+  if(target==="HUMAN_LEGAL_APPROVED"&&c.feeApplicable&&c.step!=="APPLICABLE_FEE_PAID")throw new Error("APPLICABLE_FEE_NOT_PAID");
+  return {...c,step:target};
+}
+export function evidenceRequiredForFiling(c: ProceduralCase): string[] {
+  const reached=(s:ProceduralStep)=>PROCEDURAL_WORKFLOW.indexOf(c.step)>=PROCEDURAL_WORKFLOW.indexOf(s);
+  return [
+    !c.deadlineVerified&&"DEADLINE_UNVERIFIED",!reached("CUSTOMER_APPROVED")&&"CUSTOMER_APPROVAL_MISSING",
+    c.feeApplicable&&!reached("APPLICABLE_FEE_PAID")&&"FEE_PAYMENT_MISSING",
+    !reached("HUMAN_LEGAL_APPROVED")&&"HUMAN_LEGAL_APPROVAL_MISSING",
+    !reached("PROCURADOR_FILED")&&"PROCURADOR_FILING_MISSING",
+    !reached("OFFICIAL_RECEIPT_DELIVERED")&&"OFFICIAL_RECEIPT_MISSING"
+  ].filter(Boolean) as string[];
+}

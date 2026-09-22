@@ -54,7 +54,7 @@ O proprietário permite reativação, mas não definiu se exige todas as mensali
 Na reativação, conferir pagamento no provedor, data efetiva da quitação, eventos recebidos com atraso e situação real de cada processo. Reativar o plano não reabre prazo vencido nem significa criar outro pedido no INPI.
 
 ### Encerramento aos 90 dias
-Encerrar serviço e alertas automáticos de acompanhamento, comunicar o encerramento e disponibilizar documentos, protocolos e pendências conhecidas. Nova contratação exige novo termo e nova adesão. O proprietário explicitou R$197 + R$49 para voltar ao Proteção. Confirmar a aplicação da adesão de R$497 + R$599/mês quando a nova contratação for Ilimitado; não assumir adesão de R$197 para manter marcas ilimitadas.
+Encerrar serviço e alertas automáticos de acompanhamento, comunicar o encerramento e disponibilizar documentos, protocolos e pendências conhecidas. Ao atingir o limite de 90 dias sem regularização, qualquer retorno passa a ser uma nova contratação, com novo Termo de Serviço e nova adesão conforme o plano escolhido. Regra comercial confirmada pelo proprietário em 22/09/2026: Proteção = R$197 de adesão + R$49/mês; Ilimitado = R$497 de adesão + R$599/mês. Não aplicar a adesão do Proteção ao Ilimitado nem reaproveitar a adesão antiga após o encerramento.
 
 Zerar a assinatura não apaga automaticamente históricos ou recibos, nem cancela o processo no INPI. Eliminação ou conservação de dados deve seguir finalidade, base legal e política de retenção. Cessação de acompanhamento não elimina atendimento a direitos do titular, contestação de cobrança ou pedido de cópia. Cancelamento expresso/recusa de mensagens exige fluxo próprio, diferente de inadimplência.
 
@@ -79,7 +79,6 @@ Nenhum desses critérios é declarado cumprido por este documento.
 ## 8. Pendências que não podem ser decididas silenciosamente
 - PDF do Termo de Serviço prometido pelo proprietário e sua revisão.
 - Valor para reativação antes do limite e eventual cobrança durante suspensão: nova mensalidade ou todas as vencidas? Modelo pré-pago ou dívida acumulada?
-- Adesão de Ilimitado na nova contratação após 90 dias; eventual escolha de outro plano.
 - Marco/inclusão do dia 90, primeiro vencimento, período já pago e ciclo após reativação.
 - Canal efetivamente permitido para automação de atos no INPI sem representação, com autenticações não delegáveis identificadas.
 - Tratamento de cancelamento expresso, avisos, falhas de entrega, retenção e obrigações legais.
@@ -91,4 +90,4 @@ Nenhum desses critérios é declarado cumprido por este documento.
 - LPI: https://www.planalto.gov.br/ccivil_03/leis/l9279.htm — atos, requisitos e prazos, especialmente arts. 158, 159, 212 e 216.
 - ANPD: https://www.gov.br/anpd/pt-br/acesso-a-informacao/perguntas-frequentes — término do tratamento e hipóteses de conservação.
 
-As fontes não definem o valor comercial da reativação; isso continua pendente de confirmação do proprietário. Revisão jurídica final não é substituída por este registro técnico.
+As fontes não definem os valores comerciais. A readesão após 90 dias foi definida pelo proprietário conforme o plano escolhido; a forma de regularização antes de completar os 90 dias continua pendente. Revisão jurídica final não é substituída por este registro técnico.

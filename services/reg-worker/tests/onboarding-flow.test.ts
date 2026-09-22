@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { assertNoEinpiCredential, canAdvance, validateApplicant, validateCoOwnership } from "../src/onboarding.js";
+import { assertNoEinpiCredential, canAdvance, validateApplicant, validateCoOwnership, validateOperatingModel } from "../src/onboarding.js";
 import { sha256, validateInstrumentEvidence } from "../src/signing.js";
 import { assertFreshOfficialFee, requireExplicitConfirmation } from "../src/inpi-flow.js";
 
@@ -15,7 +15,7 @@ test("rejects any nested e-INPI password field", () => {
 });
 test("forces sequential legal/product gates", () => {
   assert.equal(canAdvance("APPLICANT_DATA", "DISCOUNT_EVIDENCE"), true);
-  assert.equal(canAdvance("TERMS_REVIEW", "POA_REVIEW"), false);
+  assert.equal(canAdvance("TERMS_REVIEW", "OPERATING_MODEL_SELECTED"), false);
   assert.equal(canAdvance("GRU_CONFIRMED", "FILING_CONFIRMED"), false);
 });
 test("requires complete versioned acceptance evidence", () => {
@@ -53,4 +53,11 @@ test("summary gate only opens after all load-bearing data is confirmed", () => {
 test("PJ authoritative identity branch is accepted when sourced and confirmed", () => {
   const i:ProgressiveIntake = { kind:"PJ", cnpj:customer("12345678000199"), legalName:cnpj("Empresa X"), legalNature:cnpj("LTDA"), companyStatus:cnpj("ATIVA"), companySize:cnpj("ME"), postalCode:cnpj("01001000"), street:cnpj("Rua A"), district:cnpj("Centro"), city:cnpj("São Paulo"), state:cnpj("SP"), number:cnpj("1"), representativeName:customer("Ana"), representativeCpf:customer("12345678901"), representativeEmail:customer("ana@example.com"), contactPhone:{value:"+5511999999999",provenance:{source:"VERIFIED_WHATSAPP",retrievedAt:at},confirmedAt:at} };
   assert.equal(readyForSummaryConfirmation(i), true);
+});
+
+test("allows only assisted self-service or formal representation with own credentials", () => {
+  assert.deepEqual(validateOperatingModel({ model:"ASSISTED_SELF_SERVICE", titularPersonallyAuthenticatesOfficialActs:true, representativeUsesOwnCredentials:false }), []);
+  assert.equal(validateOperatingModel({ model:"ASSISTED_SELF_SERVICE", titularPersonallyAuthenticatesOfficialActs:false, representativeUsesOwnCredentials:false })[0]?.code, "must_be_true");
+  assert.deepEqual(validateOperatingModel({ model:"FORMAL_REPRESENTATION", titularPersonallyAuthenticatesOfficialActs:false, representativeUsesOwnCredentials:true, poaInstrumentId:"poa-1" }), []);
+  assert.equal(validateOperatingModel({ model:"FORMAL_REPRESENTATION", titularPersonallyAuthenticatesOfficialActs:false, representativeUsesOwnCredentials:false, poaInstrumentId:"poa-1" })[0]?.code, "must_be_true");
 });

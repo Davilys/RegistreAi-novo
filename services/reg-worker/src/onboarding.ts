@@ -85,9 +85,9 @@ export function nextManualQuestions(i: ProgressiveIntake): IntakeQuestion[] {
   if (!i.postalCode?.value) q.push({ field: "postalCode", reason: "Endereço oficial ausente/divergente" });
   if (!i.number?.value) q.push({ field: "number", reason: "Endereço oficial incompleto" });
   if (!i.complement?.value) q.push({ field: "complement", reason: "Completar endereço, se houver", optional: true });
-  if (!i.representativeName?.value) q.push({ field: "representativeName", reason: "Contrato e procuração" });
-  if (!i.representativeCpf?.value) q.push({ field: "representativeCpf", reason: "Contrato e procuração" });
-  if (!i.representativeEmail?.value) q.push({ field: "representativeEmail", reason: "Contrato e procuração" });
+  if (!i.representativeName?.value) q.push({ field: "representativeName", reason: "Contrato e confirmação do responsável" });
+  if (!i.representativeCpf?.value) q.push({ field: "representativeCpf", reason: "Contrato e confirmação do responsável" });
+  if (!i.representativeEmail?.value) q.push({ field: "representativeEmail", reason: "Contrato e confirmação do responsável" });
   return q;
 }
 
@@ -163,9 +163,30 @@ export function validateCoOwnership(input: CoOwnership): ValidationIssue[] {
   return input.applicants.flatMap((a, i) => validateApplicant(a).map((x) => ({ ...x, field: `applicants.${i}.${x.field}` })));
 }
 
+export type InpiOperatingModel = "ASSISTED_SELF_SERVICE" | "FORMAL_REPRESENTATION";
+export type OperatingModelDecision = {
+  model: InpiOperatingModel;
+  titularPersonallyAuthenticatesOfficialActs: boolean;
+  representativeUsesOwnCredentials: boolean;
+  poaInstrumentId?: string;
+};
+
+export function validateOperatingModel(d: OperatingModelDecision): ValidationIssue[] {
+  if (d.model === "ASSISTED_SELF_SERVICE") {
+    if (!d.titularPersonallyAuthenticatesOfficialActs) return [{ field: "titularPersonallyAuthenticatesOfficialActs", code: "must_be_true" }];
+    if (d.representativeUsesOwnCredentials || d.poaInstrumentId) return [{ field: "model", code: "self_service_cannot_use_representative" }];
+  }
+  if (d.model === "FORMAL_REPRESENTATION") {
+    if (!d.representativeUsesOwnCredentials) return [{ field: "representativeUsesOwnCredentials", code: "must_be_true" }];
+    if (!d.poaInstrumentId) return [{ field: "poaInstrumentId", code: "required" }];
+    if (d.titularPersonallyAuthenticatesOfficialActs) return [{ field: "model", code: "representation_branch_conflict" }];
+  }
+  return [];
+}
+
 export const ONBOARDING_STAGES = [
   "APPLICANT_DATA", "DISCOUNT_EVIDENCE", "TERMS_REVIEW", "TERMS_ACCEPTED",
-  "POA_REVIEW", "POA_SIGNED", "GRU_PREVIEW", "GRU_CONFIRMED", "TRADEMARK_DATA", "FILING_CONFIRMED"
+  "OPERATING_MODEL_SELECTED", "GRU_PREVIEW", "GRU_CONFIRMED", "TRADEMARK_DATA", "FILING_CONFIRMED"
 ] as const;
 
 export type Stage = typeof ONBOARDING_STAGES[number];

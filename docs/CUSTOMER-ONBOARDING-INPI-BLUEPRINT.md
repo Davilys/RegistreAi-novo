@@ -4,11 +4,11 @@
 
 ## Sequência bloqueante
 1. **Titular:** selecionar PF brasileira, PJ brasileira, PF/PJ estrangeira e eventual cotitularidade. Cada cotitular tem cadastro completo e validação própria.
-2. **Cadastro e-INPI:** o cliente cria e mantém seu próprio acesso. A RegistreAi nunca pede, recebe ou guarda login/senha. O procurador opera com seu cadastro próprio e vincula o requerente.
+2. **Cadastro e-INPI:** o cliente cria e mantém seu próprio acesso. A RegistreAi nunca pede, recebe ou guarda login/senha. É proibido atuar “como se fosse o cliente” com credencial pessoal, ainda que os Termos tentem autorizar. Antes de qualquer ato oficial, escolher e registrar um dos dois modelos abaixo.
 3. **Desconto:** registrar declaração, categoria, evidência, responsável pela verificação, data e resultado. Não presumir desconto. **Gate jurídico/produto:** documentos aceitos, expiração e gratuidade.
 4. **Contrato:** antes do aceite, mostrar quadro-resumo, limitações em destaque e Termos integrais versionados. Checkbox obrigatório nasce desmarcado; autenticação/confirmação acontece depois. Preservar versão, hash, identidade, método de autenticação, data/hora, canal, evento, IP quando disponível e metadados mínimos. Gerar e entregar imediatamente PDF aceito, certificado de auditoria e recibo.
-5. **Procuração:** instrumento específico, separado dos Termos, ainda que no mesmo UX. Deve nomear outorgante/outorgado e poderes. Estrangeiro domiciliado fora do Brasil exige representante domiciliado no Brasil e poder para receber citação judicial. **Gate jurídico:** outorgado real, poderes, prazo, substabelecimento, revogação e nível/provedor de assinatura.
-6. **GRU:** montar preview com titular/procurador, unidade Marcas, serviço (ex.: 389 especificação pré-aprovada ou 394 livre), classe(s), desconto, fonte oficial/data/versão e valor vigente lido do INPI. Valores governamentais mutáveis não são constantes de produto. Exigir confirmação vinculada ao hash do preview antes da emissão.
+5. **Modelo operacional:** (A) autoatendimento assistido sem procuração: a Reg prepara dados, minutas e instruções, mas o titular entra pessoalmente no ambiente INPI e autentica/confirma cada ato oficial; ou (B) representação formal: procuração específica e representante entra com credencial própria, nunca a do titular. Estrangeiro domiciliado fora do Brasil exige representante domiciliado no Brasil e poder para receber citação judicial. **Gate jurídico/produto:** escolher A ou B, sem fluxo híbrido ou impersonação.
+6. **GRU:** montar preview com titular e, apenas no modelo B, representante, unidade Marcas, serviço (ex.: 389 especificação pré-aprovada ou 394 livre), classe(s), desconto, fonte oficial/data/versão e valor vigente lido do INPI. Valores governamentais mutáveis não são constantes de produto. Exigir confirmação vinculada ao hash do preview antes da emissão.
 7. **Pedido:** somente após a etapa GRU, coletar natureza, apresentação, nome/tradução, imagem, classe Nice, lista de produtos/serviços, compatibilidade da atividade, prioridade e anexos condicionais. Exigir confirmação final vinculada ao snapshot antes do protocolo.
 
 ## Campos condicionais
@@ -18,25 +18,33 @@
 - **Cotitularidade:** repetir o bloco completo e a elegibilidade para cada requerente; **gate INPI/jurídico:** confirmar suporte, representação, descontos e responsabilidade pelo pagamento no fluxo oficial atual.
 
 ## Bases e consentimentos
-Execução contratual, obrigação legal/regulatória, prevenção a fraude/segurança e exercício de direitos devem ser registrados separadamente de consentimento LGPD. Marketing opcional precisa de escolha própria e revogável. Aceite dos Termos não é consentimento genérico para todo tratamento. Arrependimento, cancelamento da renovação, revogação de procuração e direitos de titular de dados são comandos distintos.
+Execução contratual, obrigação legal/regulatória, prevenção a fraude/segurança e exercício de direitos devem ser registrados separadamente de consentimento LGPD. Marketing opcional precisa de escolha própria e revogável. Aceite dos Termos não é consentimento genérico para todo tratamento. Arrependimento, cancelamento da renovação, revogação de procuração apenas no modelo B e direitos de titular de dados são comandos distintos.
 
 ## Gates abertos antes de produção
-- Caroline: texto final, CDC/arrependimento, escopo de serviços, procuração, retenção e bases LGPD.
+- Caroline: texto final, CDC/arrependimento, escopo de serviços, modelo A ou B, eventual procuração, retenção e bases LGPD.
 - Identidade: método de autenticação, recuperação, conflito de identidade e risco.
 - Assinatura: provedor, certificado, entrega, disponibilidade do PDF e prova de integridade.
 - INPI: modalidade oficial de integração/automação, atualização de tabela, cotitularidade, anexos e poderes.
-- Produto: quem será o procurador, handoff humano, suporte a estrangeiros, descontos e contingência.
+- Produto: escolher autoatendimento assistido (A) ou representante real (B); no B, definir quem será o representante; handoff humano, suporte a estrangeiros, descontos e contingência.
 
 Fontes oficiais de operação: https://www.gov.br/inpi/pt-br/cadastro-no-e-inpi · https://meu.inpi.gov.br/pag/cliente/form · https://www.gov.br/inpi/pt-br/pagamento-de-gru · https://www.gov.br/inpi/pt-br/servicos/custos-e-pagamento/descontos
 
 ## Contrato eletrônico e entrega
-A interface atual que instrui o cliente a responder `ACEITO` no WhatsApp é legado e não atende sozinha a este blueprint. Antes da produção, substituir por ação autenticada no próprio documento, com checkbox desmarcado e confirmação subsequente; a frase em canal pode ser evidência complementar. Não criar cobrança até a conclusão e entrega dos artefatos. A procuração deve possuir `instrument_id`, versão, hash e trilha próprios, sem ser fundida ao aceite dos Termos.
+A interface atual que instrui o cliente a responder `ACEITO` no WhatsApp é legado e não atende sozinha a este blueprint. Antes da produção, substituir por ação autenticada no próprio documento, com checkbox desmarcado e confirmação subsequente; a frase em canal pode ser evidência complementar. Não criar cobrança até a conclusão e entrega dos artefatos. No modelo B, a procuração deve possuir `instrument_id`, versão, hash e trilha próprios, sem ser fundida ao aceite dos Termos. No modelo A não há procuração: os Termos devem dizer com clareza que a Reg só prepara e acompanha, e que o titular autentica e confirma pessoalmente no INPI.
 
 ## WhatsApp: perguntar o mínimo, confirmar o todo
 Os campos do INPI são o modelo final, não um questionário bruto. A primeira pergunta é PF ou PJ.
 - PF: pedir CPF; nome completo apenas se não puder ser resolvido com confiança; CEP, número, complemento opcional e e-mail. Resolver logradouro/bairro/cidade/UF pelo CEP, mostrar fonte/data e pedir correção/confirmação.
-- PJ: pedir CNPJ; consultar razão social, situação, natureza, porte e endereço em fonte pública oficial atual quando disponível. Não transcrever pelo cliente. Pedir CEP/número/complemento apenas se faltar, divergir ou houver endereço de correspondência válido; pedir nome, CPF e e-mail do representante para contrato/procuração.
+- PJ: pedir CNPJ; consultar razão social, situação, natureza, porte e endereço em fonte pública oficial atual quando disponível. Não transcrever pelo cliente. Pedir CEP/número/complemento apenas se faltar, divergir ou houver endereço de correspondência válido; pedir nome, CPF e e-mail do representante para contrato e identificação do responsável; procuração somente no modelo B.
 - Reaproveitar o número verificado do WhatsApp como contato, mostrar que será usado e pedir confirmação. Ele não prova identidade sozinho.
 - Nacionalidade/estrangeiro, cotitularidade e elegibilidade a desconto só abrem seus ramos quando sinalizados ou não verificáveis.
-- Todo autofill guarda `source`, URL quando houver, `retrieved_at` e confirmação/correção. Nenhum dado de identidade é sobrescrito silenciosamente. A Reg mostra um resumo integral confirmado antes de contrato, procuração, GRU e protocolo.
+- Todo autofill guarda `source`, URL quando houver, `retrieved_at` e confirmação/correção. Nenhum dado de identidade é sobrescrito silenciosamente. A Reg mostra um resumo integral confirmado antes de contrato, escolha do modelo operacional, eventual procuração no modelo B, GRU e protocolo.
 - Se CEP/CNPJ não resolver, estiver indisponível ou divergir, interromper o avanço e pedir somente o campo faltante/correção, sem inventar. A coleta segue minimização e finalidade; campos opcionais permanecem opcionais.
+
+
+## Proibição de impersonação e escolha de produto
+Os Termos não podem transformar credencial pessoal em autorização válida para a Reg operar “como o próprio cliente”. Os dois ramos são mutuamente exclusivos:
+- **A - autoatendimento assistido:** Reg prepara; titular revisa, entra com sua credencial e confirma o ato no INPI. Guardar somente recibo/evidência permitida do resultado, nunca a credencial.
+- **B - representação formal:** instrumento específico; representante identificado usa seu próprio cadastro/credencial e vincula o requerente.
+
+Este é um gate de produto ainda aberto. Até a escolha, nenhuma automação pode atravessar `OPERATING_MODEL_SELECTED`, criar GRU ou protocolar.

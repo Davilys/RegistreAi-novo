@@ -1,0 +1,33 @@
+# RegistreAi - onboarding, contratação e captura INPI (preparação)
+
+**Status:** implementação de PR, não pronta para produção. Não cria cadastro e-INPI, não emite GRU, não protocola pedido e não envia instrumento ao cliente. Caroline/assessoria deve fechar os pontos marcados como gate jurídico.
+
+## Sequência bloqueante
+1. **Titular:** selecionar PF brasileira, PJ brasileira, PF/PJ estrangeira e eventual cotitularidade. Cada cotitular tem cadastro completo e validação própria.
+2. **Cadastro e-INPI:** o cliente cria e mantém seu próprio acesso. A RegistreAi nunca pede, recebe ou guarda login/senha. O procurador opera com seu cadastro próprio e vincula o requerente.
+3. **Desconto:** registrar declaração, categoria, evidência, responsável pela verificação, data e resultado. Não presumir desconto. **Gate jurídico/produto:** documentos aceitos, expiração e gratuidade.
+4. **Contrato:** antes do aceite, mostrar quadro-resumo, limitações em destaque e Termos integrais versionados. Checkbox obrigatório nasce desmarcado; autenticação/confirmação acontece depois. Preservar versão, hash, identidade, método de autenticação, data/hora, canal, evento, IP quando disponível e metadados mínimos. Gerar e entregar imediatamente PDF aceito, certificado de auditoria e recibo.
+5. **Procuração:** instrumento específico, separado dos Termos, ainda que no mesmo UX. Deve nomear outorgante/outorgado e poderes. Estrangeiro domiciliado fora do Brasil exige representante domiciliado no Brasil e poder para receber citação judicial. **Gate jurídico:** outorgado real, poderes, prazo, substabelecimento, revogação e nível/provedor de assinatura.
+6. **GRU:** montar preview com titular/procurador, unidade Marcas, serviço (ex.: 389 especificação pré-aprovada ou 394 livre), classe(s), desconto, fonte oficial/data/versão e valor vigente lido do INPI. Valores governamentais mutáveis não são constantes de produto. Exigir confirmação vinculada ao hash do preview antes da emissão.
+7. **Pedido:** somente após a etapa GRU, coletar natureza, apresentação, nome/tradução, imagem, classe Nice, lista de produtos/serviços, compatibilidade da atividade, prioridade e anexos condicionais. Exigir confirmação final vinculada ao snapshot antes do protocolo.
+
+## Campos condicionais
+- **PF brasileira:** nacionalidade, natureza Pessoa Física, CPF, nome completo sem abreviação, endereço brasileiro completo, e-mail; atividade/ocupação e contatos quando necessários; indicadores PCD/CadÚnico e participação em empresa do mesmo ramo para elegibilidade.
+- **PJ brasileira:** nacionalidade, natureza/enquadramento, CNPJ, razão social sem abreviação, endereço completo, e-mail, atividade e contatos; prova atual de enquadramento quando houver desconto.
+- **Estrangeiro:** PF/PJ, nome/razão social, país/endereço e e-mail; representante legal domiciliado no Brasil e procuração específica. CEP não deve ser exigido quando inaplicável.
+- **Cotitularidade:** repetir o bloco completo e a elegibilidade para cada requerente; **gate INPI/jurídico:** confirmar suporte, representação, descontos e responsabilidade pelo pagamento no fluxo oficial atual.
+
+## Bases e consentimentos
+Execução contratual, obrigação legal/regulatória, prevenção a fraude/segurança e exercício de direitos devem ser registrados separadamente de consentimento LGPD. Marketing opcional precisa de escolha própria e revogável. Aceite dos Termos não é consentimento genérico para todo tratamento. Arrependimento, cancelamento da renovação, revogação de procuração e direitos de titular de dados são comandos distintos.
+
+## Gates abertos antes de produção
+- Caroline: texto final, CDC/arrependimento, escopo de serviços, procuração, retenção e bases LGPD.
+- Identidade: método de autenticação, recuperação, conflito de identidade e risco.
+- Assinatura: provedor, certificado, entrega, disponibilidade do PDF e prova de integridade.
+- INPI: modalidade oficial de integração/automação, atualização de tabela, cotitularidade, anexos e poderes.
+- Produto: quem será o procurador, handoff humano, suporte a estrangeiros, descontos e contingência.
+
+Fontes oficiais de operação: https://www.gov.br/inpi/pt-br/cadastro-no-e-inpi · https://meu.inpi.gov.br/pag/cliente/form · https://www.gov.br/inpi/pt-br/pagamento-de-gru · https://www.gov.br/inpi/pt-br/servicos/custos-e-pagamento/descontos
+
+## Contrato eletrônico e entrega
+A interface atual que instrui o cliente a responder `ACEITO` no WhatsApp é legado e não atende sozinha a este blueprint. Antes da produção, substituir por ação autenticada no próprio documento, com checkbox desmarcado e confirmação subsequente; a frase em canal pode ser evidência complementar. Não criar cobrança até a conclusão e entrega dos artefatos. A procuração deve possuir `instrument_id`, versão, hash e trilha próprios, sem ser fundida ao aceite dos Termos.

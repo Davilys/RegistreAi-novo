@@ -8,7 +8,7 @@
 3. **Desconto:** registrar declaração, categoria, evidência, responsável pela verificação, data e resultado. Não presumir desconto. **Gate jurídico/produto:** documentos aceitos, expiração e gratuidade.
 4. **Contrato:** antes do aceite, mostrar quadro-resumo, limitações em destaque e Termos integrais versionados. Checkbox obrigatório nasce desmarcado; autenticação/confirmação acontece depois. Preservar versão, hash, identidade, método de autenticação, data/hora, canal, evento, IP quando disponível e metadados mínimos. Gerar e entregar imediatamente PDF aceito, certificado de auditoria e recibo.
 5. **Modelo operacional:** representação formal por procuração específica; procurador PF real, dedicado à carteira RegistreAi, entra com credencial própria e revisa/clica no ato oficial. Estrangeiro domiciliado fora do Brasil exige representante domiciliado no Brasil e poder para receber citação judicial. **Gate jurídico/INPI:** validar a estrutura, exibição pública, substituição e continuidade; não há rota presumida de CNPJ-procurador.
-6. **GRU:** montar preview com titular e, apenas no modelo B, representante, unidade Marcas, serviço (ex.: 389 especificação pré-aprovada ou 394 livre), classe(s), desconto, fonte oficial/data/versão e valor vigente lido do INPI. Valores governamentais mutáveis não são constantes de produto. Exigir confirmação vinculada ao hash do preview antes da emissão.
+6. **GRU:** montar preview com titular e procurador PF dedicado, unidade Marcas, serviço (ex.: 389 especificação pré-aprovada ou 394 livre), classe(s), desconto, fonte oficial/data/versão e valor vigente lido do INPI. Valores governamentais mutáveis não são constantes de produto. Exigir confirmação vinculada ao hash do preview antes da emissão.
 7. **Pedido:** somente após a etapa GRU, coletar natureza, apresentação, nome/tradução, imagem, classe Nice, lista de produtos/serviços, compatibilidade da atividade, prioridade e anexos condicionais. Exigir confirmação final vinculada ao snapshot antes do protocolo.
 
 ## Campos condicionais
@@ -18,7 +18,7 @@
 - **Cotitularidade:** repetir o bloco completo e a elegibilidade para cada requerente; **gate INPI/jurídico:** confirmar suporte, representação, descontos e responsabilidade pelo pagamento no fluxo oficial atual.
 
 ## Bases e consentimentos
-Execução contratual, obrigação legal/regulatória, prevenção a fraude/segurança e exercício de direitos devem ser registrados separadamente de consentimento LGPD. Marketing opcional precisa de escolha própria e revogável. Aceite dos Termos não é consentimento genérico para todo tratamento. Arrependimento, cancelamento da renovação, revogação de procuração apenas no modelo B e direitos de titular de dados são comandos distintos.
+Execução contratual, obrigação legal/regulatória, prevenção a fraude/segurança e exercício de direitos devem ser registrados separadamente de consentimento LGPD. Marketing opcional precisa de escolha própria e revogável. Aceite dos Termos não é consentimento genérico para todo tratamento. Arrependimento, cancelamento da renovação, revogação de procuração e direitos de titular de dados são comandos distintos.
 
 ## Gates abertos antes de produção
 - Caroline: texto final, CDC/arrependimento, escopo de serviços, procuração específica, retenção e bases LGPD.
@@ -35,10 +35,10 @@ A interface atual que instrui o cliente a responder `ACEITO` no WhatsApp é lega
 ## WhatsApp: perguntar o mínimo, confirmar o todo
 Os campos do INPI são o modelo final, não um questionário bruto. A primeira pergunta é PF ou PJ.
 - PF: pedir CPF; nome completo apenas se não puder ser resolvido com confiança; CEP, número, complemento opcional e e-mail. Resolver logradouro/bairro/cidade/UF pelo CEP, mostrar fonte/data e pedir correção/confirmação.
-- PJ: pedir CNPJ; consultar razão social, situação, natureza, porte e endereço em fonte pública oficial atual quando disponível. Não transcrever pelo cliente. Pedir CEP/número/complemento apenas se faltar, divergir ou houver endereço de correspondência válido; pedir nome, CPF e e-mail do representante para contrato e identificação do responsável; procuração somente no modelo B.
+- PJ: pedir CNPJ; consultar razão social, situação, natureza, porte e endereço em fonte pública oficial atual quando disponível. Não transcrever pelo cliente. Pedir CEP/número/complemento apenas se faltar, divergir ou houver endereço de correspondência válido; pedir nome, CPF e e-mail do representante para contrato e identificação do responsável; procuração específica separada.
 - Reaproveitar o número verificado do WhatsApp como contato, mostrar que será usado e pedir confirmação. Ele não prova identidade sozinho.
 - Nacionalidade/estrangeiro, cotitularidade e elegibilidade a desconto só abrem seus ramos quando sinalizados ou não verificáveis.
-- Todo autofill guarda `source`, URL quando houver, `retrieved_at` e confirmação/correção. Nenhum dado de identidade é sobrescrito silenciosamente. A Reg mostra um resumo integral confirmado antes de contrato, escolha do modelo operacional, eventual procuração no modelo B, GRU e protocolo.
+- Todo autofill guarda `source`, URL quando houver, `retrieved_at` e confirmação/correção. Nenhum dado de identidade é sobrescrito silenciosamente. A Reg mostra um resumo integral confirmado antes de contrato, procuração separada, atribuição de procurador, GRU e protocolo.
 - Se CEP/CNPJ não resolver, estiver indisponível ou divergir, interromper o avanço e pedir somente o campo faltante/correção, sem inventar. A coleta segue minimização e finalidade; campos opcionais permanecem opcionais.
 
 

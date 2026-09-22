@@ -15,7 +15,7 @@ test("rejects any nested e-INPI password field", () => {
 });
 test("forces sequential legal/product gates", () => {
   assert.equal(canAdvance("APPLICANT_DATA", "DISCOUNT_EVIDENCE"), true);
-  assert.equal(canAdvance("TERMS_REVIEW", "OPERATING_MODEL_SELECTED"), false);
+  assert.equal(canAdvance("TERMS_REVIEW", "POA_REVIEW"), false);
   assert.equal(canAdvance("GRU_CONFIRMED", "FILING_CONFIRMED"), false);
 });
 test("requires complete versioned acceptance evidence", () => {
@@ -55,9 +55,15 @@ test("PJ authoritative identity branch is accepted when sourced and confirmed", 
   assert.equal(readyForSummaryConfirmation(i), true);
 });
 
-test("allows only assisted self-service or formal representation with own credentials", () => {
-  assert.deepEqual(validateOperatingModel({ model:"ASSISTED_SELF_SERVICE", titularPersonallyAuthenticatesOfficialActs:true, representativeUsesOwnCredentials:false }), []);
-  assert.equal(validateOperatingModel({ model:"ASSISTED_SELF_SERVICE", titularPersonallyAuthenticatesOfficialActs:false, representativeUsesOwnCredentials:false })[0]?.code, "must_be_true");
-  assert.deepEqual(validateOperatingModel({ model:"FORMAL_REPRESENTATION", titularPersonallyAuthenticatesOfficialActs:false, representativeUsesOwnCredentials:true, poaInstrumentId:"poa-1" }), []);
-  assert.equal(validateOperatingModel({ model:"FORMAL_REPRESENTATION", titularPersonallyAuthenticatesOfficialActs:false, representativeUsesOwnCredentials:false, poaInstrumentId:"poa-1" })[0]?.code, "must_be_true");
+test("requires the definitive dedicated natural-person procurador lane", () => {
+  assert.deepEqual(validateOperatingModel({ model:"FORMAL_REPRESENTATION", dedicatedNaturalPersonProcuradorId:"proc-1", representativeUsesOwnCredentials:true, poaInstrumentId:"poa-1", humanOfficialClickRequired:true, portfolio:"REGISTREAI" }), []);
+});
+
+import { assertNoCrossPortfolio, authorizeHumanOfficialClick, validateDedicatedProcurador } from "../src/procurador-lane.js";
+test("blocks CNPJ/sham or cross-portfolio procurador lanes and requires human click", () => {
+  const p = { id:"proc-1", personName:"Procurador Dedicado", cpfHash:"a".repeat(64), portfolio:"REGISTREAI" as const, status:"ACTIVE" as const, ownEinpiIdentityConfirmedAt:at, exclusivityConfirmedAt:at, poaTemplateVersion:"poa-v1" };
+  assert.deepEqual(validateDedicatedProcurador(p), []);
+  assert.throws(() => assertNoCrossPortfolio("WebMarcas"), /CROSS_PORTFOLIO/);
+  assert.throws(() => authorizeHumanOfficialClick(p, { portfolio:"REGISTREAI", procuradorId:"proc-1", processId:"p1", actType:"FILE_APPLICATION", immutablePreviewSha256:"a".repeat(64), customerConfirmedAt:at, termsInstrumentId:"t1", poaInstrumentId:"poa1" }), /HUMAN_PROCURADOR_CLICK_REQUIRED/);
+  assert.doesNotThrow(() => authorizeHumanOfficialClick(p, { portfolio:"REGISTREAI", procuradorId:"proc-1", processId:"p1", actType:"FILE_APPLICATION", immutablePreviewSha256:"a".repeat(64), customerConfirmedAt:at, termsInstrumentId:"t1", poaInstrumentId:"poa1", humanReviewedAt:at, humanConfirmedAt:at }));
 });

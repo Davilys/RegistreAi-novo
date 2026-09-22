@@ -163,30 +163,30 @@ export function validateCoOwnership(input: CoOwnership): ValidationIssue[] {
   return input.applicants.flatMap((a, i) => validateApplicant(a).map((x) => ({ ...x, field: `applicants.${i}.${x.field}` })));
 }
 
-export type InpiOperatingModel = "ASSISTED_SELF_SERVICE" | "FORMAL_REPRESENTATION";
+export type InpiOperatingModel = "FORMAL_REPRESENTATION";
 export type OperatingModelDecision = {
   model: InpiOperatingModel;
-  titularPersonallyAuthenticatesOfficialActs: boolean;
-  representativeUsesOwnCredentials: boolean;
-  poaInstrumentId?: string;
+  dedicatedNaturalPersonProcuradorId: string;
+  representativeUsesOwnCredentials: true;
+  poaInstrumentId: string;
+  humanOfficialClickRequired: true;
+  portfolio: "REGISTREAI";
 };
 
 export function validateOperatingModel(d: OperatingModelDecision): ValidationIssue[] {
-  if (d.model === "ASSISTED_SELF_SERVICE") {
-    if (!d.titularPersonallyAuthenticatesOfficialActs) return [{ field: "titularPersonallyAuthenticatesOfficialActs", code: "must_be_true" }];
-    if (d.representativeUsesOwnCredentials || d.poaInstrumentId) return [{ field: "model", code: "self_service_cannot_use_representative" }];
-  }
-  if (d.model === "FORMAL_REPRESENTATION") {
-    if (!d.representativeUsesOwnCredentials) return [{ field: "representativeUsesOwnCredentials", code: "must_be_true" }];
-    if (!d.poaInstrumentId) return [{ field: "poaInstrumentId", code: "required" }];
-    if (d.titularPersonallyAuthenticatesOfficialActs) return [{ field: "model", code: "representation_branch_conflict" }];
-  }
-  return [];
+  const issues: ValidationIssue[] = [];
+  if (d.model !== "FORMAL_REPRESENTATION") issues.push({ field: "model", code: "formal_representation_required" });
+  if (!d.dedicatedNaturalPersonProcuradorId) issues.push({ field: "dedicatedNaturalPersonProcuradorId", code: "required" });
+  if (d.representativeUsesOwnCredentials !== true) issues.push({ field: "representativeUsesOwnCredentials", code: "must_be_true" });
+  if (!d.poaInstrumentId) issues.push({ field: "poaInstrumentId", code: "required" });
+  if (d.humanOfficialClickRequired !== true) issues.push({ field: "humanOfficialClickRequired", code: "must_be_true" });
+  if (d.portfolio !== "REGISTREAI") issues.push({ field: "portfolio", code: "cross_portfolio_forbidden" });
+  return issues;
 }
 
 export const ONBOARDING_STAGES = [
   "APPLICANT_DATA", "DISCOUNT_EVIDENCE", "TERMS_REVIEW", "TERMS_ACCEPTED",
-  "OPERATING_MODEL_SELECTED", "GRU_PREVIEW", "GRU_CONFIRMED", "TRADEMARK_DATA", "FILING_CONFIRMED"
+  "POA_REVIEW", "POA_SIGNED", "PROCURADOR_ASSIGNED", "GRU_PREVIEW", "GRU_CONFIRMED", "TRADEMARK_DATA", "FILING_CONFIRMED"
 ] as const;
 
 export type Stage = typeof ONBOARDING_STAGES[number];

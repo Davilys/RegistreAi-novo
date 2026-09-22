@@ -133,50 +133,9 @@ export async function handleWorkflowTask(taskId: string) {
       }
 
       case "GENERATE_INPI_FEE": {
-        if (!task.process_id) throw new Error("INPI_FEE_PROCESS_ID_MISSING");
-
-        const serviceCode =
-          typeof task.payload_redacted?.service_code === "string"
-            ? task.payload_redacted.service_code
-            : "389";
-
-        const niceClass =
-          typeof task.payload_redacted?.nice_class === "number"
-            ? task.payload_redacted.nice_class
-            : undefined;
-
-        const prepared = await prepareInitialInpiFee({
-          workspaceId: task.workspace_id,
-          processId: task.process_id,
-          serviceCode,
-          niceClass
-        });
-
-        if (prepared.status === "waiting_eligibility") {
-          await setTaskStatus(task.id, "waiting");
-          return;
-        }
-
-        const { error: queueError } = await db.rpc("reg_queue_send", {
-          p_queue: "inpi_jobs",
-          p_message: {
-            job_type: "generate_gru",
-            workflow_task_id: task.id,
-            workspace_id: task.workspace_id,
-            process_id: task.process_id,
-            federal_fee_id: prepared.federalFeeId,
-            service_code: prepared.serviceCode,
-            nice_class: prepared.niceClass,
-            discount_tier: prepared.discountTier,
-            expected_amount_cents: prepared.expectedAmountCents
-          },
-          p_delay: 0
-        });
-
-        if (queueError) throw queueError;
-        await setTaskStatus(task.id, "waiting");
-        return;
-      }
+        // Fail closed until persisted Terms/POA/procurador/customer/human evidence is wired.
+        // Retrying an unexecutable external act would create false readiness and queue noise.
+        throw new Error("OFFICIAL_ACT_GATE_PERSISTENCE_NOT_WIRED");
 
       default:
         throw new Error("UNSUPPORTED_WORKFLOW_TASK:" + task.task_type);

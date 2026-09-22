@@ -1,0 +1,10 @@
+import assert from "node:assert/strict";
+import test from "node:test";
+import { assertTaskCannotBypassGates, evaluateOfficialActGates } from "../src/official-act-gates.js";
+const now="2026-09-22T12:00:00.000Z";
+const procurador={id:"proc-1",personName:"Pessoa Dedicada",cpfHash:"a".repeat(64),portfolio:"REGISTREAI" as const,status:"ACTIVE" as const,ownEinpiIdentityConfirmedAt:now,exclusivityConfirmedAt:now,poaTemplateVersion:"poa-v1"};
+const review={portfolio:"REGISTREAI" as const,procuradorId:"proc-1",processId:"p1",actType:"FILE_APPLICATION" as const,immutablePreviewSha256:"a".repeat(64),customerConfirmedAt:now,termsInstrumentId:"t1",poaInstrumentId:"poa1",humanReviewedAt:now,humanConfirmedAt:now};
+test("reports every missing official-act prerequisite",()=>{const d=evaluateOfficialActGates({},Date.parse(now));assert.equal(d.ready,false);if(!d.ready)assert.deepEqual(d.blockers,["DEDICATED_PROCURADOR_NOT_ASSIGNED","OFFICIAL_ACT_REVIEW_MISSING","ACCEPTED_TERMS_NOT_DELIVERED","SIGNED_POA_NOT_DELIVERED","DISCOUNT_EVIDENCE_NOT_VERIFIED","OFFICIAL_FEE_NOT_VERIFIED"])});
+test("rejects stale fee verification",()=>{const d=evaluateOfficialActGates({procurador,review,acceptedTermsDeliveredAt:now,poaDeliveredAt:now,discountEvidenceVerifiedAt:now,feeSourceVerifiedAt:"2026-09-20T12:00:00.000Z"},Date.parse(now));assert.equal(d.ready,false);if(!d.ready)assert.ok(d.blockers.includes("OFFICIAL_FEE_VERIFICATION_STALE"))});
+test("opens only after documents, evidence, customer and human confirmations",()=>{const d=evaluateOfficialActGates({procurador,review,acceptedTermsDeliveredAt:now,poaDeliveredAt:now,discountEvidenceVerifiedAt:now,feeSourceVerifiedAt:now},Date.parse(now));assert.deepEqual(d,{ready:true});assert.doesNotThrow(()=>assertTaskCannotBypassGates("FILE_INPI_APPLICATION",d))});
+test("blocks queue tasks when prerequisites are absent",()=>{const d=evaluateOfficialActGates({},Date.parse(now));assert.throws(()=>assertTaskCannotBypassGates("GENERATE_INPI_FEE",d),/OFFICIAL_ACT_BLOCKED/)});

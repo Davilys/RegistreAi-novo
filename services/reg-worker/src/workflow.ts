@@ -1,7 +1,19 @@
 import { createMonthlySubscription, createSetupCharge } from "./billing.js";
 import { issueContract } from "./contract.js";
 import { prepareInitialInpiFee } from "./fee.js";
-import { db } from "./db.js";
+import { db, queueEncryptedReply } from "./db.js";
+import { config } from "./config.js";
+import { createCredentialLink, type CredentialPurpose } from "./credentials.js";
+import { supabaseCredentialStore } from "./credentials-db.js";
+
+async function openThreadId(workspaceId: string): Promise<string> {
+  const { data, error } = await db.from("conversation_threads").select("id")
+    .eq("workspace_id", workspaceId).eq("channel", "whatsapp").eq("status", "open").limit(1).single();
+  if (error) throw error;
+  return data.id as string;
+}
+
+const PURPOSES = new Set<CredentialPurpose>(["EINPI_NEW_REGISTRATION", "EINPI_EXISTING", "EINPI_RECOVERY"]);
 
 type WorkflowTask = {
   id: string;
@@ -129,6 +141,35 @@ export async function handleWorkflowTask(taskId: string) {
 
         if (queueError) throw queueError;
         await setTaskStatus(task.id, "waiting");
+        return;
+      }
+
+      case "REQUEST_EINPI_CREDENTIAL": {
+        if (!config.EINPI_CREDENTIAL_KEY_B64) throw new Error("EINPI_CREDENTIAL_KEY_MISSING"); // fail closed
+        const raw = String(task.payload_redacted?.purpose ?? "EINPI_EXISTING") as CredentialPurpose;
+        const purpose = PURPOSES.has(raw) ? raw : "EINPI_EXISTING";
+        const link = await createCredentialLink(supabaseCredentialStore, {
+          workspaceId: task.workspace_id, purpose, siteUrl: config.PUBLIC_SITE_URL, now: new Date()
+        });
+        await queueEncryptedReply({
+          workspaceId: task.workspace_id,
+          threadId: await openThreadId(task.workspace_id),
+          body: "Agora cadastra seu login e senha do e-INPI neste link seguro (vale 15 minutos, uso único). " +
+            "Nunca por aqui na conversa. Fica guardado criptografado e ninguém vê.\n" + link.url,
+          idempotencyKey: "einpi-cred-link:" + task.id
+        });
+        await setTaskStatus(task.id, "completed");
+        return;
+      }
+
+      case "EINPI_CREDENTIAL_RECEIVED": {
+        await queueEncryptedReply({
+          workspaceId: task.workspace_id,
+          threadId: await openThreadId(task.workspace_id),
+          body: "Recebido e guardado com segurança ✅ Daqui pra frente eu cuido de tudo no INPI pra você.",
+          idempotencyKey: "einpi-cred-received:" + task.id
+        });
+        await setTaskStatus(task.id, "completed");
         return;
       }
 

@@ -49,7 +49,7 @@ Deno.serve(async (req) => {
   try { body = await req.json(); } catch { return json({ ok: false, code: "bad_request" }, 400, origin); }
   const token = String(body.token ?? ""), login = String(body.login ?? "").trim(), password = String(body.password ?? "");
   if (!/^[A-Za-z0-9_-]{43}$/.test(token)) return json({ ok: false, code: "invalid_link" }, 400, origin);
-  if (!/^([0-9]{11}|[0-9]{14})$/.test(login)) return json({ ok: false, code: "invalid_login" }, 400, origin);
+  if (!/^[A-Za-z0-9]{1,10}$/.test(login)) return json({ ok: false, code: "invalid_login" }, 400, origin);
   if (!password || password.length > 64) return json({ ok: false, code: "invalid_password" }, 400, origin);
 
   const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, { auth: { persistSession: false } });

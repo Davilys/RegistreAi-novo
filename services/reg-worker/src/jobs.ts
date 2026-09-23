@@ -29,6 +29,12 @@ import { tryAcceptContract } from "./contract.js";
 import { tryConfirmViability } from "./confirmation.js";
 import { ensureInitialProcess } from "./process.js";
 import { handleWorkflowTask } from "./workflow.js";
+import { armFollowups, cancelFollowups } from "./followups.js";
+import { latestTrademarkName, supabaseFollowupStore } from "./followups-db.js";
+import { asksPasswordInChat } from "./credentials.js";
+
+export const SECURE_LINK_REDIRECT_REPLY =
+  "Sua senha do e-INPI nunca passa por aqui. Vou te mandar um link seguro pra você cadastrar login e senha com segurança.";
 
 async function createTask(args: {
   workspaceId: string;
@@ -78,7 +84,8 @@ async function persistProposedActions(workspaceId: string, sourceMessageId: stri
     "CREATE_ASAAS_CHARGE",
     "START_VIABILITY",
     "CHECK_PAYMENT",
-    "CHECK_INPI"
+    "CHECK_INPI",
+    "REQUEST_EINPI_CREDENTIAL"
   ]);
 
   let index = 0;
@@ -153,6 +160,10 @@ async function handleWhatsAppWebhook(webhookEventId: string) {
       text: currentText,
       timestamp: message.timestamp
     });
+
+    if (config.FOLLOWUPS_ENABLED) {
+      await cancelFollowups(supabaseFollowupStore, resolved.threadId, new Date(), "user_message");
+    }
 
     const contractAccepted = await tryAcceptContract({
       workspaceId: resolved.workspaceId,
@@ -241,6 +252,12 @@ async function handleWhatsAppWebhook(webhookEventId: string) {
         }
       }
 
+      if (asksPasswordInChat(reply)) {
+        // Regra do dono: senha só pelo link seguro, nunca na conversa.
+        reply = SECURE_LINK_REDIRECT_REPLY;
+        decision.proposed_actions.push({ type: "REQUEST_EINPI_CREDENTIAL", process_id: null, payload: { purpose: "EINPI_EXISTING" } });
+      }
+
       await persistRequestedItems(resolved.workspaceId, message.id, decision);
       await persistProposedActions(resolved.workspaceId, message.id, decision);
       await queueEncryptedReply({
@@ -249,6 +266,15 @@ async function handleWhatsAppWebhook(webhookEventId: string) {
         body: reply,
         idempotencyKey: "reg-reply:" + message.id
       });
+
+      if (config.FOLLOWUPS_ENABLED) {
+        await armFollowups(supabaseFollowupStore, {
+          threadId: resolved.threadId,
+          workspaceId: resolved.workspaceId,
+          now: new Date(),
+          trademark: await latestTrademarkName(resolved.workspaceId)
+        });
+      }
     } catch (error) {
       await recordAgentRun({
         workspaceId: resolved.workspaceId,

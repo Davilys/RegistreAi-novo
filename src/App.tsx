@@ -14,7 +14,10 @@ function RouteScrollReset() {
   return null;
 }
 
+const ADMIN_ONLY = import.meta.env.VITE_APP_MODE === "admin";
+
 export default function App() {
+  if (ADMIN_ONLY) return <AdminPreview />;
   return <BrowserRouter><RouteScrollReset /><Routes>
     <Route path="/" element={<LandingV2 />} />
     <Route path="/politica-de-privacidade" element={<PrivacyV2 />} />

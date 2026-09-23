@@ -3,6 +3,7 @@ import { REG_PROMPT_VERSION, REG_SYSTEM_PROMPT } from "./prompt.js";
 
 export type ProposedAction =
   | "NONE"
+  | "REQUEST_EINPI_CREDENTIAL"
   | "CREATE_CUSTOMER_TASK"
   | "CREATE_PROCESS_TASK"
   | "START_CONTRACT"
@@ -123,7 +124,7 @@ const decisionSchema = {
             enum: [
               "NONE","CREATE_CUSTOMER_TASK","CREATE_PROCESS_TASK","START_CONTRACT",
               "CREATE_ASAAS_CHARGE","START_VIABILITY","REQUEST_DOCUMENT","REQUEST_INFORMATION",
-              "REQUEST_CONFIRMATION","CHECK_PAYMENT","CHECK_INPI","SEND_MESSAGE","BLOCK_AND_CLARIFY"
+              "REQUEST_CONFIRMATION","CHECK_PAYMENT","CHECK_INPI","SEND_MESSAGE","BLOCK_AND_CLARIFY","REQUEST_EINPI_CREDENTIAL"
             ]
           },
           process_id: { anyOf: [{ type: "string" }, { type: "null" }] },

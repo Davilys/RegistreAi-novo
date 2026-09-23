@@ -13,7 +13,8 @@
   "dependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^7.12.0"
+    "react-router-dom": "^7.12.0",
+    "@registreai/product-config": "file:packages/product-config"
   },
   "devDependencies": {
     "@playwright/test": "1.55.1",

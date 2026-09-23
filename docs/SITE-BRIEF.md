@@ -1,3 +1,7 @@
+## Arquivo histórico — preços substituídos em 21/09/2026
+
+> Não usar como fonte comercial atual. A fonte canônica vigente é `packages/product-config`.
+
 # RegistreAi V2 — Brief do Site
 
 ## Referência
@@ -39,10 +43,10 @@ Não ensinamos você a registrar uma marca.
 
 ## Planos
 ### Proteção
-R$ 299 de adesão + R$ 49/mês
+R$ 197 de adesão + R$ 49/mês
 
 ### Ilimitado
-R$ 999 de adesão + R$ 599/mês
+R$ 497 de adesão + R$ 599/mês
 Registros ilimitados em honorários para o mesmo CPF ou CNPJ titular.
 
 Taxas oficiais do INPI à parte.

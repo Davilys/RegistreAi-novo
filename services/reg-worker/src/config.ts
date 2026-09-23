@@ -15,7 +15,12 @@ const schema = z.object({
 
   META_ACCESS_TOKEN: z.string().optional(),
   META_PHONE_NUMBER_ID: z.string().optional(),
-  META_GRAPH_VERSION: z.string().optional(),
+  META_GRAPH_VERSION: z.string().regex(/^v\d+\.\d+$/).optional(),
+  META_APP_SECRET: z.string().min(16).optional(),
+  META_WEBHOOK_VERIFY_TOKEN: z.string().min(24).optional(),
+  META_ENVIRONMENT: z.enum(["test","production"]).default("test"),
+  META_ALLOWED_PHONE_NUMBER_IDS: z.string().default(""),
+  META_MEDIA_MAX_BYTES: z.coerce.number().int().min(1024).max(104857600).default(104857600),
 
   ASAAS_API_KEY: z.string().optional(),
   ASAAS_ENV: z.enum(["sandbox","production"]).default("sandbox"),

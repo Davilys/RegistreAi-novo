@@ -1,6 +1,20 @@
 registreai.com.br {
   encode zstd gzip
-  reverse_proxy web:80
+
+  # Admin CRM preview (synthetic data). Password hash comes from .env on the VPS, never from git.
+  @admin path /admin /admin/*
+  handle @admin {
+    basic_auth {
+      davilys {$ADMIN_BASIC_AUTH_HASH}
+    }
+    header X-Robots-Tag "noindex, nofollow"
+    uri strip_prefix /admin
+    reverse_proxy admin-web:80
+  }
+
+  handle {
+    reverse_proxy web:80
+  }
 
   header {
     -Server

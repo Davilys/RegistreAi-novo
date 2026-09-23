@@ -1,0 +1,1 @@
+{"object":"whatsapp_business_account","entry":[{"id":"waba-test","changes":[{"field":"messages","value":{"metadata":{"phone_number_id":"pn-test"},"messages":[{"from":"5511999990001","id":"wamid.turn1","timestamp":"1790035200","type":"text","text":{"body":"Quero registrar minha marca"}}]}}]}]}

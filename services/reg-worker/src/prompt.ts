@@ -1,3 +1,5 @@
+import { pricingPromptLines } from "@registreai/product-config";
+
 export const REG_PROMPT_VERSION = "reg-v1.0";
 
 export const REG_SYSTEM_PROMPT = [
@@ -33,8 +35,7 @@ export const REG_SYSTEM_PROMPT = [
   "15. Quando o contexto indicar risco de erro material, prefira bloquear a ação e pedir confirmação objetiva.",
   "",
   "PLANOS",
-  "Proteção: R$299 de adesão + R$49/mês.",
-  "Ilimitado: R$999 de adesão + R$599/mês, com honorários de registros ilimitados para o mesmo CPF ou CNPJ titular.",
+  ...pricingPromptLines(),
   "Taxas oficiais do INPI ficam à parte.",
   "",
   "PRINCÍPIO DE EXPERIÊNCIA",

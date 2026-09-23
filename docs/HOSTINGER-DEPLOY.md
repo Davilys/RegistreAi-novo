@@ -46,6 +46,20 @@ Preencha os segredos e ative:
 docker compose --profile worker up -d --build reg-worker
 ```
 
+## Admin (/admin)
+`registreai.com.br/admin` é servido por um container separado (`admin-web`, `Dockerfile.admin`) atrás de basic auth no Caddy. É a prévia do CRM com dados sintéticos: sem Supabase, sem Meta, sem dados reais. O login Google + 2FA substitui a senha depois.
+
+A senha nunca vai para o Git. Só o hash bcrypt fica em `/opt/registreai/.env`:
+
+```bash
+cd /opt/registreai
+docker compose exec caddy caddy hash-password
+# cole o resultado entre aspas simples:
+# ADMIN_BASIC_AUTH_HASH='$2a$14$...'
+```
+
+Sem essa variável o `deploy.sh` para antes de mexer em qualquer coisa, porque o Caddy não sobe sem ela.
+
 ## Atualização
 
 ```bash

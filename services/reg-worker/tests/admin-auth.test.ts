@@ -1,0 +1,11 @@
+import test from "node:test";
+import assert from "node:assert/strict";
+import { evaluateAdminBootstrapClaims } from "../src/admin-auth.js";
+const uid="00000000-0000-4000-8000-000000000001";
+const valid={sub:uid,aal:"aal2",email:"Davillys@GMAIL.com",email_verified:true,app_metadata:{provider:"google",providers:["google"]}};
+test("canonicalizes and accepts the one preauthorized verified Google AAL2 identity",()=>assert.deepEqual(evaluateAdminBootstrapClaims(valid,"davillys@gmail.com"),{allowed:true,canonicalEmail:"davillys@gmail.com",userId:uid}));
+test("fails closed without MFA",()=>assert.equal(evaluateAdminBootstrapClaims({...valid,aal:"aal1"},"davillys@gmail.com").code,"MFA_AAL2_REQUIRED"));
+test("fails closed for non-Google identity",()=>assert.equal(evaluateAdminBootstrapClaims({...valid,app_metadata:{provider:"email",providers:["email"]}},"davillys@gmail.com").code,"GOOGLE_IDENTITY_REQUIRED"));
+test("fails closed for unverified email",()=>assert.equal(evaluateAdminBootstrapClaims({...valid,email_verified:false},"davillys@gmail.com").code,"VERIFIED_EMAIL_REQUIRED"));
+test("fails closed for a different email",()=>assert.equal(evaluateAdminBootstrapClaims({...valid,email:"attacker@example.com"},"davillys@gmail.com").code,"EMAIL_NOT_PREAUTHORIZED"));
+test("fails closed for malformed claims",()=>assert.equal(evaluateAdminBootstrapClaims({},"davillys@gmail.com").code,"INVALID_AUTH_CLAIMS"));

@@ -4,11 +4,19 @@ set -euo pipefail
 APP_DIR="/opt/registreai"
 
 cd "$APP_DIR"
+
+# Caddy refuses to start without the admin hash; fail before touching anything.
+if ! grep -q '^ADMIN_BASIC_AUTH_HASH=' .env 2>/dev/null; then
+  echo "ADMIN_BASIC_AUTH_HASH ausente em $APP_DIR/.env. Gere com: docker compose exec caddy caddy hash-password" >&2
+  exit 1
+fi
+
 git fetch origin main
 git reset --hard origin/main
 
-docker compose build web
-docker compose up -d web caddy
+docker compose build web admin-web
+docker compose up -d web admin-web caddy
+docker compose exec -T caddy caddy reload --config /etc/caddy/Caddyfile --adapter caddyfile
 
 if [ -f deploy/hostinger/.env.worker ]; then
   docker compose --profile worker build reg-worker

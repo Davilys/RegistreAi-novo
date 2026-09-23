@@ -1,0 +1,1 @@
+{"object":"whatsapp_business_account","entry":[{"id":"waba-test","changes":[{"field":"messages","value":{"metadata":{"phone_number_id":"pn-test"},"messages":[{"from":"5511999990001","id":"wamid.turn2","timestamp":"1790035260","type":"text","context":{"id":"wamid.out1"},"text":{"body":"A marca se chama Aurora"}}]}}]}]}

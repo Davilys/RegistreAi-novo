@@ -16,9 +16,25 @@ services:
       retries: 3
       start_period: 10s
 
+  admin-web:
+    build:
+      context: .
+      dockerfile: Dockerfile.admin
+    restart: unless-stopped
+    networks:
+      - registreai
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
   caddy:
     image: caddy:2.8-alpine
     restart: unless-stopped
+    environment:
+      ADMIN_BASIC_AUTH_HASH: ${ADMIN_BASIC_AUTH_HASH:?set ADMIN_BASIC_AUTH_HASH in /opt/registreai/.env}
     ports:
       - "80:80"
       - "443:443"

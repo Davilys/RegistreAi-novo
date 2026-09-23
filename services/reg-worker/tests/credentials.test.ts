@@ -17,7 +17,7 @@ const tokenOf = (url: string) => url.split("/seguro/")[1];
 async function stored() {
   const s = new MemoryCredentialStore();
   const { url } = await createCredentialLink(s, { workspaceId: W, purpose: "EINPI_EXISTING", siteUrl: "https://registreai.com.br", now });
-  const r = await submitCredential(s, { token: tokenOf(url), login: "12345678901", password: PASSWORD, keyB64: key, now });
+  const r = await submitCredential(s, { token: tokenOf(url), login: "maria2026", password: PASSWORD, keyB64: key, now });
   assert.deepEqual(r, { ok: true });
   return s;
 }
@@ -29,10 +29,11 @@ test("secure link: one-time, expires in 15min, token stored only as hash", async
   assert.equal(expiresAt.getTime() - now.getTime(), LINK_TTL_MS);
   assert.ok(![...s.tokens.keys()].includes(tokenOf(url)));
   const late = new Date(now.getTime() + LINK_TTL_MS + 1);
-  assert.deepEqual(await submitCredential(s, { token: tokenOf(url), login: "12345678901", password: PASSWORD, keyB64: key, now: late }), { ok: false, code: "expired" });
-  assert.deepEqual(await submitCredential(s, { token: tokenOf(url), login: "12345678901", password: PASSWORD, keyB64: key, now }), { ok: true });
-  assert.deepEqual(await submitCredential(s, { token: tokenOf(url), login: "12345678901", password: PASSWORD, keyB64: key, now }), { ok: false, code: "used" });
-  assert.deepEqual(await submitCredential(s, { token: "forged", login: "12345678901", password: PASSWORD, keyB64: key, now }), { ok: false, code: "invalid_link" });
+  assert.deepEqual(await submitCredential(s, { token: tokenOf(url), login: "maria2026", password: PASSWORD, keyB64: key, now: late }), { ok: false, code: "expired" });
+  assert.deepEqual(await submitCredential(s, { token: tokenOf(url), login: "maria2026", password: PASSWORD, keyB64: key, now }), { ok: true });
+  assert.deepEqual(await submitCredential(s, { token: tokenOf(url), login: "maria2026", password: PASSWORD, keyB64: key, now }), { ok: false, code: "used" });
+  assert.equal((await submitCredential(new MemoryCredentialStore(), { token: "x", login: "maria2026", password: PASSWORD, keyB64: key, now })).ok, false);
+  assert.deepEqual(await submitCredential(s, { token: "forged", login: "maria2026", password: PASSWORD, keyB64: key, now }), { ok: false, code: "invalid_link" });
 });
 
 test("password is never stored in plaintext and never shown (admin summary, chat, logs)", async () => {
@@ -50,7 +51,7 @@ test("password is never stored in plaintext and never shown (admin summary, chat
 test("decrypt only inside the official-act step, audited, errors redacted", async () => {
   const s = await stored();
   const got = await useCredential(s, { workspaceId: W, actor: "official_act", reason: "gru", keyB64: key, now }, async (l, p) => l + ":" + p.length);
-  assert.equal(got, "12345678901:" + PASSWORD.length);
+  assert.equal(got, "maria2026:" + PASSWORD.length);
   await assert.rejects(
     useCredential(s, { workspaceId: W, actor: "official_act", reason: "gru", keyB64: key, now }, async (_l, p) => { throw new Error("login failed for " + p); }),
     (e: Error) => !e.message.includes(PASSWORD) && e.message.includes("[REDACTED]")

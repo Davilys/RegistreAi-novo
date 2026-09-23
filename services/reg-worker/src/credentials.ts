@@ -20,7 +20,7 @@ export type LinkToken = {
 
 export type StoredCredential = {
   workspaceId: string;
-  login: string;              // e-INPI login (CPF/CNPJ digits); not secret
+  login: string;              // e-INPI username (<=10 chars); not secret
   ciphertextB64: string;
   nonceB64: string;
   keyVersion: number;
@@ -57,9 +57,9 @@ export async function createCredentialLink(
   return { url: args.siteUrl.replace(/\/$/, "") + "/seguro/" + token, expiresAt };
 }
 
+// e-INPI login is a username chosen by the client: up to 10 characters, no special characters (INPI FAQ).
 export function validLogin(login: string): boolean {
-  const digits = login.replace(/\D/g, "");
-  return (digits.length === 11 || digits.length === 14) && digits === login.trim();
+  return /^[A-Za-z0-9]{1,10}$/.test(login.trim());
 }
 
 export async function submitCredential(

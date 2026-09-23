@@ -7,6 +7,7 @@ ENV VITE_SUPABASE_URL=$VITE_SUPABASE_URL
 ENV VITE_WHATSAPP_NUMBER=$VITE_WHATSAPP_NUMBER
 
 COPY package.json ./
+COPY packages ./packages
 RUN npm install --include=optional
 
 COPY tsconfig.json tsconfig.app.json tsconfig.node.json vite.config.ts index.html ./

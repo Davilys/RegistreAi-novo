@@ -22,6 +22,12 @@ const schema = z.object({
   META_ALLOWED_PHONE_NUMBER_IDS: z.string().default(""),
   META_MEDIA_MAX_BYTES: z.coerce.number().int().min(1024).max(104857600).default(104857600),
 
+  WHATSAPP_PROVIDER: z.enum(["meta","stevo"]).default("meta"),
+  STEVO_BASE_URL: z.string().url().default("https://openapi.stevo.chat"),
+  STEVO_INSTANCE: z.string().optional(),
+  STEVO_API_KEY: z.string().optional(),
+  STEVO_WEBHOOK_SECRET: z.string().min(24).optional(),
+
   ASAAS_API_KEY: z.string().optional(),
   ASAAS_ENV: z.enum(["sandbox","production"]).default("sandbox"),
   ASAAS_USER_AGENT: z.string().default("RegistreAi/0.1"),

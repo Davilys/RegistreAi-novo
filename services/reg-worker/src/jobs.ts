@@ -7,6 +7,9 @@ import {
   decryptOutboundBody,
   getOutboundByKey,
   getPrimaryWhatsApp,
+  getWhatsAppProvider,
+  getDefaultWhatsAppProvider,
+  setWhatsAppProvider,
   loadEncryptedWebhook,
   markWebhookProcessed,
   queueEncryptedReply,
@@ -16,9 +19,10 @@ import {
   storeInboundText,
   type QueueMessage
 } from "./db.js";
-import { sendWhatsAppText } from "./meta.js";
+import { channels } from "./whatsapp-channels.js";
+import { normalizeStevoWebhook, stevoEventsAsMessages } from "./channels/inbound.js";
 import { generateRegDecision, REG_PROMPT_VERSION, type RegDecision } from "./openai.js";
-import { extractMessageText, extractMetaMessages, extractMetaStatuses } from "./whatsapp.js";
+import { extractMessageText, extractMetaMessages, extractMetaStatuses, type MetaMessage } from "./whatsapp.js";
 import { persistCapturedData } from "./profile.js";
 import { tryResolveFeeEligibility } from "./fee.js";
 import { tryAcceptContract } from "./contract.js";
@@ -112,15 +116,22 @@ async function updateWhatsAppStatuses(payload: Record<string, unknown>) {
 
 async function handleWhatsAppWebhook(webhookEventId: string) {
   const { event, raw } = await loadEncryptedWebhook(webhookEventId);
-  if (event.provider !== "WHATSAPP_META") return;
+  if (event.provider !== "WHATSAPP_META" && event.provider !== "WHATSAPP_STEVO") return;
 
   const payload = JSON.parse(raw) as Record<string, unknown>;
-  await updateWhatsAppStatuses(payload);
+  let inbound: MetaMessage[];
+  if (event.provider === "WHATSAPP_META") {
+    await updateWhatsAppStatuses(payload);
+    inbound = extractMetaMessages(payload);
+  } else {
+    inbound = stevoEventsAsMessages(normalizeStevoWebhook(payload));
+  }
 
-  for (const message of extractMetaMessages(payload)) {
+  for (const message of inbound) {
     if (!message.id || !message.from) continue;
 
     const resolved = await resolveWhatsAppWorkspace(message.from);
+    await setWhatsAppProvider(resolved.workspaceId, event.provider === "WHATSAPP_STEVO" ? "stevo" : "meta");
     const currentText = extractMessageText(message);
 
     if (!currentText) {
@@ -360,7 +371,7 @@ export async function handleRegJob(job: QueueMessage) {
     const provider = String(job.message.provider ?? "");
     if (!webhookEventId) throw new Error("WEBHOOK_EVENT_ID_MISSING");
 
-    if (provider === "WHATSAPP_META") await handleWhatsAppWebhook(webhookEventId);
+    if (provider === "WHATSAPP_META" || provider === "WHATSAPP_STEVO") await handleWhatsAppWebhook(webhookEventId);
     else if (provider === "ASAAS") await handleAsaasWebhook(webhookEventId);
 
     await archiveQueueMessage("reg_jobs", job.msg_id);
@@ -393,7 +404,10 @@ export async function handleNotificationJob(job: QueueMessage) {
     .eq("id", outbound.id);
 
   try {
-    const providerMessageId = await sendWhatsAppText(phone, body);
+    const channel = channels.resolve(
+      outbound.provider ?? await getWhatsAppProvider(outbound.workspace_id) ?? await getDefaultWhatsAppProvider()
+    );
+    const { providerMessageId } = await channel.sendText(phone, body);
     const encrypted = encryptText(body, config.PII_ENCRYPTION_KEY_B64);
 
     await db.from("outbound_messages").update({

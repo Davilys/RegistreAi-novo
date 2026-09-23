@@ -208,6 +208,37 @@ export async function getPrimaryWhatsApp(workspaceId: string): Promise<string> {
   return decryptText(row.ciphertext, row.nonce_b64, config.PII_ENCRYPTION_KEY_B64);
 }
 
+/**
+ * Provedor em que o cliente fala (meta|stevo). Antes da migration de provedor a coluna
+ * não existe: devolve null e o worker usa WHATSAPP_PROVIDER.
+ */
+export async function getWhatsAppProvider(workspaceId: string): Promise<string | null> {
+  const { data, error } = await db.from("channel_identities")
+    .select("provider")
+    .eq("workspace_id", workspaceId)
+    .eq("channel", "whatsapp")
+    .eq("is_primary", true)
+    .maybeSingle();
+  if (error) return null;
+  return (data as { provider?: string } | null)?.provider ?? null;
+}
+
+/** Canal padrão escolhido no CRM. Sem migration/linha, devolve null (worker usa WHATSAPP_PROVIDER). */
+export async function getDefaultWhatsAppProvider(): Promise<string | null> {
+  const { data, error } = await db.from("whatsapp_channel_settings").select("default_provider").maybeSingle();
+  if (error) return null;
+  return (data as { default_provider?: string } | null)?.default_provider ?? null;
+}
+
+export async function setWhatsAppProvider(workspaceId: string, provider: "meta" | "stevo"): Promise<void> {
+  const { error } = await db.from("channel_identities")
+    .update({ provider })
+    .eq("workspace_id", workspaceId)
+    .eq("channel", "whatsapp")
+    .eq("is_primary", true);
+  if (error && !/provider/.test(error.message ?? "")) throw error;
+}
+
 export async function getOutboundByKey(idempotencyKey: string) {
   const { data, error } = await db.from("outbound_messages")
     .select("*")

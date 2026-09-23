@@ -7,8 +7,8 @@ A Reg conduz o cliente no WhatsApp, coleta o mínimo progressivamente, apresenta
 
 Não existe neste desenho:
 - CNPJ, IA, agência ou “escritório” fingindo ser procurador;
-- uso da senha do cliente ou do procurador por automação;
-- atuação “como se fosse o cliente”;
+- uso da senha do cliente fora do link seguro e da custódia cifrada (modo A, 23/09/2026: ver REGISTREAI-EINPI-CREDENTIAL-AND-FILING-FLOW.md); senha do procurador por automação;
+- atuação pelo cliente sem autorização contratual específica (gate jurídico do modo A);
 - cruzamento de identidade, fila, email operacional, artefatos ou portfólio com qualquer outra operação;
 - protocolo sem Termos, procuração, confirmação do cliente e revisão humana.
 

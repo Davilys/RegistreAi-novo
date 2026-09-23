@@ -4,6 +4,7 @@ import LandingV2 from "./pages/LandingV2";
 import PrivacyV2 from "./pages/PrivacyV2";
 import TermsV2 from "./pages/TermsV2";
 import ContractView from "./pages/ContractView";
+import SecureCredential from "./pages/SecureCredential";
 import AdminPreview from "./pages/AdminPreview";
 
 function RouteScrollReset() {
@@ -23,6 +24,7 @@ export default function App() {
     <Route path="/politica-de-privacidade" element={<PrivacyV2 />} />
     <Route path="/termos-de-uso" element={<TermsV2 />} />
     <Route path="/contrato/:token" element={<ContractView />} />
+    <Route path="/seguro/:token" element={<SecureCredential />} />
     <Route path="/admin-preview" element={<AdminPreview />} />
     <Route path="*" element={<LandingV2 />} />
   </Routes></BrowserRouter>;

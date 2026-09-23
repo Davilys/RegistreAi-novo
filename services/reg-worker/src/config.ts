@@ -34,6 +34,10 @@ const schema = z.object({
 
   PUBLIC_SITE_URL: z.string().url().default("http://localhost:5173"),
 
+  EINPI_CREDENTIAL_KEY_B64: z.string().min(40).optional(),
+  FOLLOWUPS_ENABLED: z.enum(["true","false"]).default("false").transform((v) => v === "true"),
+  FOLLOWUP_EXCLUDED_PHONES: z.string().default(""),
+
   INPI_SEARCH_MODE: z.enum(["legacy_web","official_api"]).default("legacy_web"),
   INPI_OFFICIAL_API_BASE: z.string().url().optional(),
   INPI_OFFICIAL_API_TOKEN: z.string().optional(),

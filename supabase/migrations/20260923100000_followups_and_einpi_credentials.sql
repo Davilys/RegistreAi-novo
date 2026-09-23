@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS public.credential_link_tokens(
 -- Senha só cifrada (AES-256-GCM, chave EINPI_CREDENTIAL_KEY_B64 fora do banco). Nunca texto claro.
 CREATE TABLE IF NOT EXISTS public.einpi_credentials(
   workspace_id uuid PRIMARY KEY REFERENCES public.workspaces(id) ON DELETE CASCADE,
-  login text NOT NULL CHECK (login ~ '^([0-9]{11}|[0-9]{14})$'),
+  login text NOT NULL CHECK (login ~ '^[A-Za-z0-9]{1,10}$'),  -- usuário e-INPI (até 10 caracteres)
   secret_ciphertext bytea NOT NULL,
   secret_nonce bytea NOT NULL,
   key_version int NOT NULL DEFAULT 1,

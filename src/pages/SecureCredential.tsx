@@ -7,7 +7,7 @@ const MESSAGES: Record<string, string> = {
   invalid_link: "Este link não é válido. Peça um novo para a Reg no WhatsApp.",
   used: "Este link já foi usado. Se precisar, peça um novo para a Reg.",
   expired: "Este link expirou (vale 15 minutos). Peça um novo para a Reg.",
-  invalid_login: "O login do e-INPI é o seu CPF (11 números) ou CNPJ (14 números), sem pontos nem traços.",
+  invalid_login: "O login do e-INPI tem até 10 letras ou números, sem símbolos.",
   invalid_password: "Digite a senha do e-INPI.",
   unavailable: "Não conseguimos salvar agora. Tente de novo em alguns minutos."
 };
@@ -32,7 +32,7 @@ export default function SecureCredential() {
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ token, login: login.replace(/\D/g, ""), password })
+        body: JSON.stringify({ token, login: login.trim(), password })
       });
       const data = await res.json().catch(() => ({ ok: false, code: "unavailable" }));
       setPassword("");
@@ -56,8 +56,8 @@ export default function SecureCredential() {
           <form onSubmit={submit} autoComplete="off">
             <h1 style={{ fontSize: 22, margin: "18px 0 8px" }}>Seu acesso ao e-INPI</h1>
             <p style={{ color: "#555", fontSize: 14 }}>Fica guardado criptografado. Ninguém vê a senha, nem a Reg. Para apagar, é só pedir no WhatsApp.</p>
-            <label style={{ display: "block", marginTop: 16, fontWeight: 600 }}>Login (CPF ou CNPJ)
-              <input inputMode="numeric" value={login} onChange={(e) => setLogin(e.target.value)} required
+            <label style={{ display: "block", marginTop: 16, fontWeight: 600 }}>Login do e-INPI
+              <input autoCapitalize="none" autoCorrect="off" maxLength={10} value={login} onChange={(e) => setLogin(e.target.value)} required
                 style={{ display: "block", width: "100%", padding: 12, marginTop: 6, fontSize: 16 }} />
             </label>
             <label style={{ display: "block", marginTop: 12, fontWeight: 600 }}>Senha do e-INPI

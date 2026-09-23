@@ -244,3 +244,8 @@ END;
 $$;
 REVOKE ALL ON FUNCTION public.assert_admin_session() FROM PUBLIC, anon;
 GRANT EXECUTE ON FUNCTION public.assert_admin_session() TO authenticated;
+
+-- Explicit Data API grants (Supabase stops auto-granting new public tables on 2026-10-30).
+-- RLS stays enabled; authenticated keeps read-only access filtered by policies.
+GRANT SELECT, INSERT, UPDATE, DELETE ON public.admin_users, public.admin_access_events TO service_role;
+GRANT SELECT ON public.admin_users, public.admin_access_events TO authenticated;

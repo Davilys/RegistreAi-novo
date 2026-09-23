@@ -6,6 +6,7 @@
 Pergunta: "Você já tem cadastro no e-INPI? 1 Sim e lembro a senha / 2 Sim mas esqueci / 3 Não".
 - **3 Novo:** Reg envia o link oficial https://meu.inpi.gov.br/pag/cliente/form e guia passo a passo, com PRINT da página em cada passo (cliente leigo). O PDF ilustrado do cadastro só entra no fluxo após aprovação do dono.
 - **2 Esqueceu:** Sistema de emissão de GRU → "Esqueceu a senha? Clique aqui" → CPF/CNPJ só números → Pesquisar → marcar login → "Receber por e-mail" (disparar só com OK do cliente na conversa). O INPI informa o e-mail de destino depois do disparo; a Reg repassa como o INPI mostra. Senha provisória vai por e-mail, até 10 caracteres, diferencia maiúsculas; usar no PAG. Sem acesso ao e-mail → rota Fale Conosco do INPI (RG, CPF/contrato social, carta de autorização). Fonte: https://www.gov.br/inpi/pt-br/acesso-a-informacao/perguntas-frequentes/acesso-aos-sistemas
+- **Login e-INPI:** é um nome de usuário escolhido pelo cliente (até 10 letras/números, sem símbolos), não o CPF/CNPJ. O link seguro, a função e o CHECK da tabela validam `^[A-Za-z0-9]{1,10}$`.
 - **1 Lembra:** direto ao link seguro.
 
 ## 2. Credencial (login + senha)

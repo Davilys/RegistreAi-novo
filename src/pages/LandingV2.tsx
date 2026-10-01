@@ -123,4 +123,4 @@ export default function LandingV2() {
       <SiteFooter showCta={false} />
     </main>
   );
-      }
+}

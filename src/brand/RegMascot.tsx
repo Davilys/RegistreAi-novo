@@ -4,10 +4,11 @@ type RegMascotProps = {
   size?: number;
   className?: string;
   greetOnEntry?: boolean;
+  greetingDurationMs?: number;
 };
 
-export default function RegMascot({ size = 210, className = "", greetOnEntry = false }: RegMascotProps) {
-  const greetingRef = useMascotGreeting(greetOnEntry);
+export default function RegMascot({ size = 210, className = "", greetOnEntry = false, greetingDurationMs }: RegMascotProps) {
+  const greetingRef = useMascotGreeting(greetOnEntry, greetingDurationMs);
   return (
     <svg
       ref={greetingRef}

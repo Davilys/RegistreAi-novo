@@ -28,7 +28,7 @@ export function CompanyDetails() {
   );
 }
 
-export function SiteFooter() {
+export function SiteFooter({ showCta = true }: { showCta?: boolean }) {
   return (
     <footer className="footer wrap">
       <div className="footer-identity">
@@ -43,7 +43,7 @@ export function SiteFooter() {
           <Link to="/politica-de-privacidade">Política de Privacidade</Link>
           <Link to="/termos-de-uso">Termos de Serviço</Link>
         </nav>
-        <WhatsAppButton />
+        {showCta && <WhatsAppButton />}
         <p className="footer-note">Privacidade e dados pessoais: <a href={`mailto:${COMPANY.email}?subject=Privacidade%20e%20LGPD`}>{COMPANY.email}</a></p>
       </div>
     </footer>

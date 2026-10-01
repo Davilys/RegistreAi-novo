@@ -6,7 +6,7 @@ let greetingConsumed = false;
 const DURATION_MS = 1000;
 const VISIBLE_RATIO = 0.6;
 
-export default function useMascotGreeting(enabled: boolean) {
+export default function useMascotGreeting(enabled: boolean, durationMs = DURATION_MS) {
   const ref = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
@@ -64,7 +64,7 @@ export default function useMascotGreeting(enabled: boolean) {
       observer?.disconnect();
       svg!.dataset.greeting = 'playing';
       const timing: KeyframeAnimationOptions = {
-        duration: DURATION_MS, iterations: 1, fill: 'none', easing: 'linear',
+        duration: durationMs, iterations: 1, fill: 'none', easing: 'linear',
       };
       try {
         const blink = eye!.animate([
@@ -117,7 +117,7 @@ export default function useMascotGreeting(enabled: boolean) {
     }
     // Cleanup mirrors setup, including React StrictMode's initial extra cycle.
     return release;
-  }, [enabled]);
+  }, [enabled, durationMs]);
 
   return ref;
 }
